@@ -1,0 +1,118 @@
+//----------------------------------*\
+// SCSS MIXINS
+//----------------------------------*/
+
+@import 'mixins/_vendor.scss';
+@import 'mixins/_position.scss';
+
+h1 {
+	opacity: 0;
+}
+
+.section {
+	position: relative;
+	width: 50%;
+	.article-main {
+		position: relative;
+		width: 100%;	
+		overflow: hidden;
+		color: $white;
+		@include main-transition(all .5s);
+		img {
+			width: 100%;
+		}
+		.text {
+			position: absolute;
+			top: 0;
+			padding: 0 10%;
+			width: 100%;
+			line-height: 1.7;
+		}
+		.overlay {
+			opacity: .85;
+			@include main-transition(all .5s);
+		}
+	}
+	.article1 {
+		height: 810px;
+		.overlay {
+			background: $light-green;
+		}
+	}
+	.article2 {
+		height: 750px;
+		ul {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			li {
+				float: left;
+				position: relative;
+				width: 25%;
+				height: 100%;
+				img {
+					width: auto;
+					height: 100%;
+				}
+			}
+			li:hover {
+				.overlay {
+					opacity: 0;
+				}
+			}
+			li.li1 {
+				.overlay {
+					background: #999;
+				}
+			}
+			li.li2 {
+				.overlay {
+					background: #246F22;
+				}
+			}
+			li.li3 {
+				.overlay {
+					background: $green;
+				}
+			}
+			li.li4 {
+				.overlay {
+					background: #9B548F;
+				}
+			}
+		}
+	}
+	.article3 {
+		height: 530px;
+		.overlay {
+			background: $pink;
+		}
+	}
+	.article4 {
+		height: 400px;
+		.overlay {
+			background: $yellow;
+		}
+	}
+	.article5 {
+		height: 630px;
+		.overlay {
+			background: $blue;
+		}
+	}
+	.article-main:hover {
+		z-index: 99;
+	}
+	.article4:hover {
+		.overlay {
+			opacity: 0;
+		}
+	}
+}
+
+.section1 {
+	float: left;
+}
+.section2 {
+	float: right;
+}

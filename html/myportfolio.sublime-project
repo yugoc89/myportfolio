@@ -1,0 +1,18 @@
+{
+    "folders":
+    [
+        {
+        "path": "."
+        }
+    ],
+    "settings": {
+        "xdebug": {
+        "path_mapping": {
+                //"/var/www/" : "/Users/yugoito/Sites/vagrant_lamp",
+            },
+            "url": "http://192.168.10.10/",
+            "close_on_stop": true,
+            "break_on_start": true
+        },
+    }
+}
