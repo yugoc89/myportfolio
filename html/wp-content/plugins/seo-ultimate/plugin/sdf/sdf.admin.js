@@ -25,7 +25,7 @@
 
     sdf_image_media_frame.on('select', function() {
       var media_attachment = sdf_image_media_frame.state().get('selection').first().toJSON();
-      current_widget_form.find('.sdf-image-url').val(media_attachment.url)
+      current_widget_form.find('.sdf-image-url').val(media_attachment.url);
       current_widget_form.find('.sdf-image-preview').attr('src', media_attachment.url)
     });
 

@@ -374,7 +374,7 @@ function w3tc_lightbox_buy_plugin(nonce) {
                 lightbox.close();
               var key = event.data.substr(8);
               w3tc_lightbox_save_licence_key(key, nonce);
-            }
+            };
 
             if (window.addEventListener) {
                 addEventListener("message", w3tc_license_listener, false)

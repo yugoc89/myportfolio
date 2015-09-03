@@ -3280,7 +3280,7 @@ Details = Attachment.extend({
 
 		if ( 37 === event.keyCode || 38 === event.keyCode || 39 === event.keyCode || 40 === event.keyCode ) {
 			this.controller.trigger( 'attachment:keydown:arrow', event );
-			return;
+
 		}
 	}
 });

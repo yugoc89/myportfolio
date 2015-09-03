@@ -50,7 +50,7 @@
             return true;
         }
         return false;
-    }
+    };
 
     $.fn.setUserFilled = function( flag ) {
         var $element = $(this);
@@ -59,7 +59,7 @@
         } else {
             $element.removeData("user-filled");
         }
-    }
+    };
 
     function trackTyping() {
         var $element = $(this);

@@ -20,7 +20,7 @@ jQuery(document).ready(function($) {
 			var shuffled_banners = shuffleArray(data.banners);
 			var shuffled_slides = shuffleArray(data.slides);
 			// check if it's cloud hosted banner
-			var banner_img = shuffled_banners[0].banner_img
+			var banner_img = shuffled_banners[0].banner_img;
 			if(banner_img.indexOf('https://') == -1) banner_img = suModulesSdfAdsSdfAdsL10n.sdf_banners_url + banner_img;
 			sdf_carousel = sdf_carousel + "<a href=\"" + shuffled_banners[0].banner_link + "\" rel=\"nofollow\" target=\"_blank\"><img src=\"" + banner_img + "\" alt=\"Slide "+ i +"\"></a>";
 			sdf_carousel = sdf_carousel + "<div id=\"sdfCarousel\" class=\"carousel slide\"><ol class=\"carousel-indicators\">";
@@ -30,7 +30,7 @@ jQuery(document).ready(function($) {
 				if (i == 0) active_indicator = ' class=\"active\"';
 				else active_indicator = '';
 				sdf_carousel = sdf_carousel + "<li data-target=\"#sdfCarousel\" data-slide-to=\""+ i +"\""+ active_indicator +"></li>";
-			};
+			}
 			sdf_carousel = sdf_carousel + "<li data-target=\"#sdfCarousel\" data-slide-to=\""+ i +"\"></li>";
 			sdf_carousel = sdf_carousel + "</ol><div class=\"carousel-inner\">";
 			
@@ -39,7 +39,7 @@ jQuery(document).ready(function($) {
 				if (i == 0) active_indicator = ' active';
 				else active_indicator = '';
 				sdf_carousel = sdf_carousel + "<div class=\"item"+ active_indicator +"\"><div class=\"container\"><div class=\"carousel-caption\">"+ shuffled_slides[i].slide_cap + "<p><a class=\"btn btn-large btn-warning\" href=\""+ shuffled_slides[i].slide_link + "\" rel=\"nofollow\" target=\"_blank\">Read More</a></p></div></div></div>";
-			};
+			}
 			sdf_carousel = sdf_carousel + "<div class=\"item\"><div class=\"container\"><div class=\"carousel-caption\">"+ sds_promo_blog_post + "</div></div></div>";
 			sdf_carousel = sdf_carousel + "</div><a class=\"left carousel-control\" href=\"#sdfCarousel\" data-slide=\"prev\"><span class=\"glyphicon glyphicon-chevron-left\"></span></a><a class=\"right carousel-control\" href=\"#sdfCarousel\" data-slide=\"next\"><span class=\"glyphicon glyphicon-chevron-right\"></span></a></div>";
 			

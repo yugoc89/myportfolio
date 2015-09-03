@@ -811,7 +811,7 @@ window.wp = window.wp || {};
 
 		prepare: function() {
 			if ( _.isNull( this.model.get('revision') ) ) {
-				return;
+
 			} else {
 				return _.extend( { type: 'tooltip' }, {
 					attributes: this.model.get('revision').toJSON()
@@ -852,7 +852,7 @@ window.wp = window.wp || {};
 			} else {
 				this.$el.stop().fadeTo( this.el.style.opacity * 300, 0, function(){ $(this).hide(); } );
 			}
-			return;
+
 		}
 	});
 

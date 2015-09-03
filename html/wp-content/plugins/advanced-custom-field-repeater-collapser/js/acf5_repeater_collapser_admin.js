@@ -198,7 +198,7 @@ jQuery(document).ready(function($) {
 		}
 		
 		// store every row collapsed state in an array
-		var rowStates = new Array();
+		var rowStates = [];
 		$rows.each( function() {
 			rowStates.push( $(this).data('acf-row-collapsed') );
 		});

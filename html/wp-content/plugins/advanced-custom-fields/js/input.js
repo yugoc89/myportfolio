@@ -497,7 +497,7 @@ var acf = {
 						}
 						
 						
-						names[ pair.name ]++
+						names[ pair.name ]++;
 						
 						pair.name += '[' + names[ pair.name ] +']';
 						
@@ -643,7 +643,7 @@ var acf = {
 							$target.parents('tr').each(function(){
 								
 								// attempt to update $toggle to this parent sub field
-								$toggle = $(this).find('.field_key-' + rule.field)
+								$toggle = $(this).find('.field_key-' + rule.field);
 								
 								// if the parent sub field actuallly exists, great! Stop the loop
 								if( $toggle.exists() )
@@ -1566,7 +1566,7 @@ var acf = {
 			// is clone field?
 			if( acf.helpers.is_clone_field(this.$input) )
 			{
-				return;
+
 			}
 					
 		},
@@ -1744,7 +1744,7 @@ var acf = {
 				if( t.o.library == 'uploadedTo' )
 				{
 					filters.$el.find('option[value="uploaded"]').remove();
-					filters.$el.after('<span>' + acf.l10n.file.uploadedTo + '</span>')
+					filters.$el.after('<span>' + acf.l10n.file.uploadedTo + '</span>');
 					
 					$.each( filters.filters, function( k, v ){
 						
@@ -2490,7 +2490,7 @@ var acf = {
 			// is clone field?
 			if( acf.helpers.is_clone_field(this.$input) )
 			{
-				return;
+
 			}
 					
 		},
@@ -2677,7 +2677,7 @@ var acf = {
 				if( t.o.library == 'uploadedTo' )
 				{
 					filters.$el.find('option[value="uploaded"]').remove();
-					filters.$el.after('<span>' + acf.l10n.image.uploadedTo + '</span>')
+					filters.$el.after('<span>' + acf.l10n.image.uploadedTo + '</span>');
 					
 					$.each( filters.filters, function( k, v ){
 						
@@ -3145,7 +3145,7 @@ var acf = {
 			
 	
 			// add new li
-			this.$right.find('.relationship_list').append( tmpl )
+			this.$right.find('.relationship_list').append( tmpl );
 			
 			
 			// trigger change on new_li
@@ -3559,7 +3559,7 @@ var acf = {
 		{
 			// show this tab group
 			$tab.trigger('click');
-			return;
+
 		}
 		
 
@@ -4415,7 +4415,7 @@ var acf = {
 		
 		// vars
 		var wp_content = $('#wp-content-wrap').exists(),
-			wp_acf_settings = $('#wp-acf_settings-wrap').exists()
+			wp_acf_settings = $('#wp-acf_settings-wrap').exists();
 			mode = 'tmce';
 		
 		

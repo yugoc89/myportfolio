@@ -6,11 +6,11 @@
 
 		var icon_i = function(id) {
 			return '<i class="fa ' + prefix + '-' + 'fw ' + prefix + '-' + id + '"></i>';
-		}
+		};
 
 		var icon_shortcode = function(id) {
 			return '[icon name="' + id + '" class=""]';
-		}
+		};
 
 		var createControl = function(name, controlManager) {
 			if (name != 'bfaSelect') return null;

@@ -233,4 +233,4 @@ Encoder = {
 		return -1;
 	}
 
-}
+};

@@ -323,7 +323,7 @@ jQuery(document).ready( function($) {
 				$results.children('li.' + options.itemClass + ':last').addClass(options.selectClass);
 
 		}
-	}
+	};
 	
 	$.fn.jlsuggest = function(source, options) {
 		

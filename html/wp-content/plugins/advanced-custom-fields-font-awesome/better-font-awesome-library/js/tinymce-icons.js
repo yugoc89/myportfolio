@@ -6,7 +6,7 @@
 
     var icon_shortcode = function(id) {
         return '[icon name="' + id + '" class=""]';
-    }
+    };
 
     var bfaSelect = function( editor, url ) {
         editor.addButton('bfaSelect', function() {

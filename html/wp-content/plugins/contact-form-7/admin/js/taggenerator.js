@@ -114,7 +114,7 @@
 			else
 				$.tgCreateTag(pane, tagType);
 		});
-	}
+	};
 
 	$.tgCreateTag = function(pane, tagType) {
 		pane.find('input[name="name"]').each(function(i) {
@@ -259,7 +259,7 @@
 			$(this).val(tag);
 		});
 
-	}
+	};
 
 	$.tgPanes = {};
 

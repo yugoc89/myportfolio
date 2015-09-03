@@ -1,5 +1,5 @@
 /* Simple AJAX Code-Kit (SACK) v1.6.1 */
-/* ©2005 Gregory Wild-Smith */
+/* ï¿½2005 Gregory Wild-Smith */
 /* www.twilightuniverse.com */
 /* Software licenced under a modified X11 licence,
    see documentation or authors website for more details */
@@ -17,7 +17,7 @@ function sack(file) {
   		this.element = null;
 		this.elementObj = null;
 		this.requestFile = file;
-		this.vars = new Object();
+		this.vars = {};
 		this.responseStatus = new Array(2);
   	};
 
@@ -65,7 +65,7 @@ function sack(file) {
 		} else {
 			this.vars[encodeURIComponent(name)] = Array(encodeURIComponent(value), true);
 		}
-	}
+	};
 
 	this.processURLString = function(string, encode) {
 		encoded = encodeURIComponent(this.argumentSeparator);
@@ -79,7 +79,7 @@ function sack(file) {
 				this.setVar(urlVars[0], urlVars[1]);
 			}
 		}
-	}
+	};
 
 	this.createURLString = function(urlstring) {
 		if (this.encodeURIString && this.URLString.length) {
@@ -97,7 +97,7 @@ function sack(file) {
 		// prevents caching of URLString
 		this.setVar("rndval", new Date().getTime());
 
-		urlstringtemp = new Array();
+		urlstringtemp = [];
 		for (key in this.vars) {
 			if (false == this.vars[key][1] && true == this.encodeURIString) {
 				encoded = this.encVar(key, this.vars[key][0], true);
@@ -113,11 +113,11 @@ function sack(file) {
 		} else {
 			this.URLString += urlstringtemp.join(this.argumentSeparator);
 		}
-	}
+	};
 
 	this.runResponse = function() {
 		eval(this.response);
-	}
+	};
 
 	this.runAJAX = function(urlstring) {
 		if (this.failed) {

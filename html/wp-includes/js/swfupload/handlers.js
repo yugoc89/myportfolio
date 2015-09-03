@@ -191,7 +191,7 @@ function deleteSuccess(data, textStatus) {
 	jQuery('.filename', item).append( jQuery('a.undo', item).removeClass('hidden') );
 	jQuery('.menu_order_input', item).hide();
 
-	return;
+
 }
 
 function deleteError(X, textStatus, errorThrown) {

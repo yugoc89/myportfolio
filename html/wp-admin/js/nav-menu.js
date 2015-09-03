@@ -839,7 +839,7 @@ var wpNavMenu;
 				$t.data( name, title );
 
 				if( '' === val ) $t.val( title );
-				else if ( title == val ) return;
+				else if ( title == val )
 				else $t.removeClass( name );
 			}).focus( function(){
 				var $t = $(this);

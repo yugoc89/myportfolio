@@ -285,7 +285,7 @@
 				$results.children('li:last-child').addClass(options.selectClass);
 
 		}
-	}
+	};
 
 	$.fn.suggest = function(source, options) {
 
