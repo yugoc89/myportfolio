@@ -1,0 +1,45 @@
+form {
+	margin: auto;
+	.title {
+		display: inline-block;
+		width: 110px;
+		text-align: left;
+		i {
+			color: $red;
+			font-weight: bold;
+		}
+		&:before {
+			content:none;
+		}
+	}
+	p {
+		margin: 3% 32px;
+	}
+	input,textarea {
+		background-color: rgba(255,255,255,0.5);
+	}
+	input {
+		border: 1px solid #666;
+		padding: 6px 10px;
+	}
+	input.wpcf7-text {
+		width: calc(100% - 115px);
+	}
+	input[type="submit"] {
+		font-size: 1.5em;
+		border: none;
+	}
+	textarea {
+		width: 100%;
+		border: 1px solid #666;
+		margin-top: 10px;
+		padding: 10px;
+	}
+	textarea:focus, input:focus{
+		outline: 0;
+		border: 1px solid $red;
+	}
+	p.last-child {
+		text-align: center;
+	}
+}

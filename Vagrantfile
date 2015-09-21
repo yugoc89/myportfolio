@@ -63,7 +63,7 @@ Vagrant.configure(2) do |config|
   # end
 
   config.push.define "ftp" do |push|
-    push.host = "192.168.33.10"
+    push.host = "192.168.10.10"
     push.username = "root"
     push.password = "root"
   end
@@ -80,7 +80,7 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get install -y apache2
   # SHELL
   config.vm.provision :shell, :path => "provision.sh"
-  config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network "private_network", ip: "192.168.10.10"
   config.vm.synced_folder ".", "/var/www", :owner => 'www-data', :group => 'www-data'
   #config.ssh.username = 'root'
   #config.ssh.password = 'vagrant'

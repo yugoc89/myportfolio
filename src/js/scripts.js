@@ -1,36 +1,144 @@
 (function ($, window, document, undefined) {
 
 
-	// Get window width and height
-	$(document).ready(function() {
-		getWidthAndHeight();
-	});
-	// make sure div stays full width/height on resize
-	$(window).resize(function() {
-		getWidthAndHeight();
-	});
+
+	/*
+	* rwdImageMaps jQuery plugin v1.5
+	*
+	* Allows image maps to be used in a responsive design by recalculating the area coordinates to match the actual image size on load and window.resize
+	*
+	* Copyright (c) 2013 Matt Stow
+	* https://github.com/stowball/jQuery-rwdImageMaps
+	* http://mattstow.com
+	* Licensed under the MIT license
+	*/
+	(function(a){a.fn.rwdImageMaps=function(){var c=this;var b=function(){c.each(function(){if(typeof(a(this).attr("usemap"))=="undefined"){return}var e=this,d=a(e);a("<img />").load(function(){var g="width",m="height",n=d.attr(g),j=d.attr(m);if(!n||!j){var o=new Image();o.src=d.attr("src");if(!n){n=o.width}if(!j){j=o.height}}var f=d.width()/100,k=d.height()/100,i=d.attr("usemap").replace("#",""),l="coords";a('map[name="'+i+'"]').find("area").each(function(){var r=a(this);if(!r.data(l)){r.data(l,r.attr(l))}var q=r.data(l).split(","),p=new Array(q.length);for(var h=0;h<p.length;++h){if(h%2===0){p[h]=parseInt(((q[h]/n)*100)*f)}else{p[h]=parseInt(((q[h]/j)*100)*k)}}r.attr(l,p.toString())})}).attr("src",d.attr("src"))})};a(window).resize(b).trigger("resize");return this}})(jQuery);
+	
 	function getWidthAndHeight (){
 		var winWidth = $(window).width();
 		var winHeight = $(window).height();
-		$('.cols2').css({'width': winWidth,'height': winHeight,});
-		$('.content--work .section').css({'min-height': winHeight,});
-		$('.content--blog #fullpage').css({
+		$('.content--about, .content--home').css({'width': winWidth,'height': winHeight,});
+		$('.section--works, .section--works-archive').css({'height': winHeight,});
+		$('.content--blog #fullpage, .content--contact').css({
 			'width': winWidth,
 			'height': winHeight
 		});
 	}
+	function pathMatch() {
+		var path = window.location.hash.split('#')[1];
+		var url = '.works__list a[href*="/' +path+ '/"]';
 
-	// Add scroller
-	$('.scroller').click(function(){
-		$('html, body').animate({scrollTop: $('#' + $(this).data('to')).offset().top-120},1400);
-		return false;
+		$(url).parent('li').addClass('active');
+		$('.works__list a').not(url).parent('li').removeClass('active');
+	}
+
+	// make sure div stays full width/height on resize
+	$(window).resize(function() {
+		getWidthAndHeight();
+	});
+
+	$(document).ready(function() {
+		// on page load
+		console.log('Could you do the washing up without any washing up liquid?');
+
+		// Get window width and height
+		getWidthAndHeight();
+		
+		function loadContents(sourceDir){
+			
+			$('#load').fadeIn('fast', function(){
+				$(this).addClass('loading');
+				$('body').removeClass('content-on');
+
+				loadProgress('#load .load--small');
+				console.log('                   loaded!!');
+			});
+			
+			function loaded () {
+
+				var winHeight = $(window).height();
+
+				var first = $.when(
+					getWidthAndHeight(),
+					$('img[usemap]').rwdImageMaps()
+				);
+
+				first.done( function(){
+					mapLink();
+
+				});
+				$('#load span').animate({
+					//width: 0,
+					opacity: 0
+				}, 300, function() {
+					$('#load').removeClass('loading');
+					$('#load span').removeAttr('style');
+				});
+			}
+
+			setTimeout(function(){
+
+				if(window.location.hash) {
+					$('#wrapper').load( '/' + sourceDir + '/ #content', function() {
+
+						$('body').removeClass('home');
+
+						loaded();
+						colorBox();
+						pathMatch();
+						$('body').addClass('content-on');
+					});
+				} else {
+					$('#wrapper').load( '/ #content', function() {
+						$('body').addClass('home');
+						loaded();
+					});
+				}
+			}, 700);
+		}
+		// If hash exists
+		if(window.location.hash){
+			console.log('                   hashed!!');
+			var dir = window.location.hash.substr(1);
+			loadContents(dir);
+		} else if($('body').hasClass('home')) {
+			console.log("it's home!");
+		} else {
+			window.location = '/';
+		}
+
+		// If hash changed
+		$(window).bind( 'hashchange', function(){
+			console.log('                   hashchange!!');
+			var dir = window.location.hash.substr(1);
+			loadContents(dir);
+		});
+
+		// If menu is clicked, close the menu and open the next page.
+		$('.bt-menu ul a').on('click', function(){
+			var menu = document.getElementById( 'bt-menu' );
+			classie.remove( menu, 'bt-menu-open' );
+			$('.sketch').removeClass('active');
+		});
+
+		$('.menu__global a').not('.link_exc').on('click', function(event) {
+			var menu = document.getElementById( 'bt-menu' );
+			classie.remove( menu, 'bt-menu-open' );
+		});
+
+		// If navigation menu is clicked
+		$('#main').on('click','a:not(.link_exc):not(.panel-link)', function(e){
+			e.preventDefault();
+			window.location.hash = $(e.currentTarget).attr('href').substr(0, $(e.currentTarget).attr('href').length).replace(/\//g,'');
+		});
+
 	});
 
 	//
 	//	CLASSIE
 	//
 	( function( window ) {
-	// class helper functions from bonzo https://github.com/ded/bonzo
+		// class helper functions from bonzo https://github.com/ded/bonzo
 
 		function classReg( className ) {
 		  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
@@ -97,7 +205,7 @@
 	//
 	//	PATHLOADER
 	//
-	;( function( window ) {
+	(function( window ) {
 
 		function PathLoader( el ) {
 			this.el = el;
@@ -175,6 +283,11 @@
 						if( progress === 1 ) {
 							classie.remove( container, 'loading' );
 							classie.add( container, 'loaded' );
+
+							// for (var i = 0; i <= $('#page-title').children().size(); i++) {
+							// 	$('#page-title').children('span:eq('+i+')').delay(50*i).animate({'opacity': 1},300);
+							// }
+
 							clearInterval( interval );
 
 							var onEndHeaderAnimation = function(ev) {
@@ -209,9 +322,135 @@
 
 	})();
 
+	/**
+	 * add spans on navigation menu
+	 * 
+	 */
+	$(function() {	
+		$('#page-title').children().andSelf().contents().each(function() {
+		    if (this.nodeType == 3) {
+		        $(this).replaceWith($(this).text().replace(/(\S)/g, '<span>$1</span>'));
+		    }
+		});
+	});
+
+	/**
+	* 
+	* Parallax effect
+	* 
+	*/
 	function parallax(){
 		var scrolled = $(window).scrollTop();
 		$('.image').css('top',''+-(scrolled*0.6)+'px');
+	}
+
+	/**
+	* 
+	* mousemove
+	* 
+	*/
+	function mouseMove() {
+
+		$.fn.imagePanning=function(){
+		     var init="center",
+		       speed=800, //animation/tween speed
+		       //custom js tween
+		       _tweenTo=function(el,prop,to,duration,easing,overwrite){
+		         if(!el._mTween){el._mTween={top:{},left:{}};}
+		         var startTime=_getTime(),_delay,progress=0,from=el.offsetTop,elStyle=el.style,_request,tobj=el._mTween[prop];
+		         if(prop==="left"){from=el.offsetLeft;}
+		         var diff=to-from;
+		         if(overwrite!=="none"){_cancelTween();}
+		         _startTween();
+		         function _step(){
+		           progress=_getTime()-startTime;
+		           _tween();
+		           if(progress>=tobj.time){
+		             tobj.time=(progress>tobj.time) ? progress+_delay-(progress-tobj.time) : progress+_delay-1;
+		             if(tobj.time<progress+1){tobj.time=progress+1;}
+		           }
+		           if(tobj.time<duration){tobj.id=_request(_step);}
+		         }
+		         function _tween(){
+		           if(duration>0){
+		             tobj.currVal=_ease(tobj.time,from,diff,duration,easing);
+		             elStyle[prop]=Math.round(tobj.currVal)+"px";
+		           }else{
+		             elStyle[prop]=to+"px";
+		           }
+		         }
+		         function _startTween(){
+		           _delay=1000/60;
+		           tobj.time=progress+_delay;
+		           _request=(!window.requestAnimationFrame) ? function(f){_tween(); return setTimeout(f,0.01);} : window.requestAnimationFrame;
+		           tobj.id=_request(_step);
+		         }
+		         function _cancelTween(){
+		           if(tobj.id==null){return;}
+		           if(!window.requestAnimationFrame){clearTimeout(tobj.id);
+		           }else{window.cancelAnimationFrame(tobj.id);}
+		           tobj.id=null;
+		         }
+		         function _ease(t,b,c,d,type){
+		           var ts=(t/=d)*t,tc=ts*t;
+		           return b+c*(0.499999999999997*tc*ts + -2.5*ts*ts + 5.5*tc + -6.5*ts + 4*t);
+		         }
+		         function _getTime(){
+		           if(window.performance && window.performance.now){
+		             return window.performance.now();
+		           }else{
+		             if(window.performance && window.performance.webkitNow){
+		               return window.performance.webkitNow();
+		             }else{
+		               if(Date.now){return Date.now();}else{return new Date().getTime();}
+		             }
+		           }
+		         }
+		       };
+		     return this.each(function(){
+		       var $this=$(this),timer,dest;
+		       if($this.data("imagePanning")) return;
+		       $this.data("imagePanning",1)
+		         //create markup
+		         .wrap("<div class='img-pan-container' />")
+		         .after("<div class='resize' style='position:absolute; width:auto; height:auto; top:0; right:0; bottom:0; left:0; margin:0; padding:0; overflow:hidden; visibility:hidden; z-index:-1'><iframe style='width:100%; height:0; border:0; visibility:visible; margin:0' /><iframe style='width:0; height:100%; border:0; visibility:visible; margin:0' /></div>")
+		         //image loaded fn
+		         .one("load",function(){
+		           setTimeout(function(){ $this.addClass("loaded").trigger("mousemove",1); },1);
+		         }).each(function(){ //run load fn even if cached
+		           if(this.complete) $(this).load();
+		         })
+		         //panning fn
+		         .parent().on("mousemove touchmove MSPointerMove pointermove",function(e,p){
+		           var cont=$(this);
+		           e.preventDefault();
+		           var contH=cont.height(),contW=cont.width(),
+		             isTouch=e.type.indexOf("touch")!==-1,isPointer=e.type.indexOf("pointer")!==-1,
+		             evt=isPointer ? e.originalEvent : isTouch ? e.originalEvent.touches[0] || e.originalEvent.changedTouches[0] : e,
+		             coords=[
+		               !p ? evt.pageY-cont.offset().top : init==="center" ? contH/2 : 0,
+		               !p ? evt.pageX-cont.offset().left : init==="center" ? contW/2 : 0
+		             ];
+		           dest=[Math.round(($this.outerHeight(true)-contH)*(coords[0]/contH)),Math.round(($this.outerWidth(true)-contW)*(coords[1]/contW))];
+		         })
+		         //resize fn
+		         .find(".resize iframe").each(function(){
+		           $(this.contentWindow || this).on("resize",function(){
+		             $this.trigger("mousemove",1);
+		           });
+		         });
+		       //panning animation 60FPS
+		       if(timer) clearInterval(timer);
+		       timer=setInterval(function(){
+		         _tweenTo($this[0],"top",-dest[0],speed);
+		         _tweenTo($this[0],"left",-dest[1],speed);
+		       },16.6);
+		     });
+		   };
+
+		$(document).ready(function(){
+			$("#colorbox img").imagePanning();
+		});
 	}
 
 	/**
@@ -255,21 +494,19 @@
 		var allMods = $('.blog__post').not('.blog__post:first-child, .blog__post:nth-child(2)');
 
 		allMods.each(function(i, el) {
-			var el = $(el);
-			if (el.visible(true)) {
-				el.addClass("visible"); 
+			if ($(el).visible(true)) {
+				$(el).addClass("visible"); 
 			} else {
-				el.css('visibility', 'hidden');
+				$(el).css('visibility', 'hidden');
 			}
 			
 		});
 
 		win.scroll(function(event) {
 			allMods.each(function(i, el) {
-				var el = $(el);
-				if (el.visible(true)) {
-					el.addClass("comein"); 
-					el.css('visibility', 'visible');
+				if ($(el).visible(true)) {
+					$(el).addClass("comein"); 
+					$(el).css('visibility', 'visible');
 				} 
 			});
 		});
@@ -304,21 +541,24 @@
 	* 
 	*/
 	function loadProgress(loadingEl) {
-		$(loadingEl).animate({
-			width: '4px'
-		}, 500).animate({
-			height: '100px'
-		}, 500, function(){
-			$(this).animateRotate(90, 300, 'linear');
+		// $(loadingEl).animate({
+		// 	width: '4px'
+		// }, 500).animate({
+		// 	height: '100px'
+		// }, 500, function(){
+		// 	$(this).animateRotate(90, 300, 'linear');
 
-			setTimeout( function() {
-				var winWidth = $(window).width();
-				$(loadingEl).animate({
-					height: winWidth
-				});
-			}, 500);
-			return false;
-		});
+		// 	setTimeout( function() {
+		// 		var winWidth = $(window).width();
+		// 		$(loadingEl).animate({
+		// 			height: winWidth
+		// 		});
+		// 	}, 500);
+		// 	return false;
+		// });
+		$(loadingEl).animate({
+			width: '100%'
+		}, 800);
 	}
 
 	/**
@@ -354,89 +594,101 @@
 			});
 		});
 	}
-	
-	$(document).ready(function() {
-		// on page load
-		
-		function loadContents(sourceDir){
-			
-			$('#load').fadeIn('fast', function(){
-				//progress(100, $('#load'));
-				$(this).addClass('loading');
-				loadProgress('.load__element');
-				$('#wrapper').fadeOut();
-				console.log('                   loaded!!');
-			});
-			
-			function loaded () {
 
-				var winHeight = $(window).height();
+	/**
+	* 
+	* Colourbox plugin 
+	* 
+	*/
+	function colorBox() {
+		var windowWidth = $(window).width(),
+			windowHeight = $(window).height();
 
-				$('#load span').animate({
-					width: winHeight,
-					opacity: 0
-				}, 300, function() {
-					$('#load').removeClass('loading');
-					$(this).removeAttr('style');
-					getWidthAndHeight();
-					$('#wrapper').fadeIn();
+		$('.panel-link').colorbox({
+			ransition: 'fade',
+			onOpen: function(){
+				// $('body').addClass('panel-open');
+				$('.content--works').fadeOut(400);
+			},
+			onComplete: function(){
+				$('.cboxPhoto').unbind().click($.colorbox.close);
+				$('#colorbox, #cboxWrapper, #cboxContent, #cboxLoadedContent').css({
+					width: windowWidth,
+					height: windowHeight,
 				});
+				mouseMove();
+			},
+			onClosed: function(){
+				$('.content--works').fadeIn(400);
 			}
+		});
+		$('.cboxPhoto').bind('click', function(){
+			$.colorbox.close();
+		});
+	}
 
-			setTimeout(function(){
-				
-				if(window.location.hash){
-					$('#wrapper').load( '/' + sourceDir + '/ #content', function() {
-						$('body').removeClass('home');
-						loaded();
-						var work = $('.content').hasClass('content--single-work');
-						// var	path = window.location.pathname;
-						// path = path.split("/");
+	/**
+	* 
+	* Works galleries
+	* 
+	*/
+	function galleryAjax(){
 
-						if (work) {
-							mouseEvent();
-						}
-						
-						if (location.hash === "#blog"){
-							scale();
-							loadTabs();
-						}
-					});
-				} else {
-					$('#wrapper').load( '/ #content', function() {
-						$('body').addClass('home');
-						loaded();
-					});
+		var post_url = $(this).attr('href');
+
+		$('.post-nav a').each(function(index, el) {
+			$('#section--works').on('click', this, function(event) {
+				event.preventDefault();
+				$('#section--works').load( post_url, function(){
+					console.log('loaaaaded');
+				});
+			});
+		});
+	}
+
+	/**
+	* 
+	* Add link on images using map
+	* 
+	*/
+	function mapLink() {
+		
+		setTimeout( function(){
+
+			$('.map-area').each(function(index, el) {
+
+				var i, x = [], y = [];
+				var c = $(this).attr('coords').split(',');
+
+				// var t = c[1] - c[2];
+				// var l = c[0] - c[2];
+				for (i=0; i < c.length; i++){
+				 x.push( c[i++] );
+				 y.push( c[i] );
 				}
-			}, 1100);
-		}
-		// If hash exists
-		if(window.location.hash){
-			console.log('                   hashed!!');
-			var dir = window.location.hash.substr(1);
-			loadContents(dir);
-		}
+				var t = y.sort(num)[0] ;
+				var l = x.sort(num)[0] ;
+				console.log(c);
 
-		// If hash changed
-		$(window).bind( 'hashchange', function(){
-			console.log('                   hashchange!!');
-			var dir = window.location.hash.substr(1);
-			loadContents(dir);
-		});
+				function num(a, b){ return (a-b); }
 
-		// If menu is clicked, close the menu and open the next page.
-		$('.bt-menu ul a').on('click', function(){
-			var menu = document.getElementById( 'bt-menu' );
-			classie.remove( menu, 'bt-menu-open' );
-		});
+				var secWidth = $('.map-link').eq(index).height() *2;
 
-		// If navigation menu is clicked
-		$('#main').not('.link_exc').on('click','a:not(.link_exc)', function(e){
-			e.preventDefault();
-			window.location.hash = $(e.currentTarget).attr('href').substr(0, $(e.currentTarget).attr('href').length).replace(/\//g,'');
-		});
+				$(function (){
+					$('.map-link').eq(index).css({
+						top: t + 'px',
+						left: l + 'px'
+					});
 
-	});
+				});
+
+			});
+		}, 400);
+	}
+
+	// $(document).ready(function($) {
+	// 	// setTimeout(webGL, 500);
+	// });
 
 	/**
 	* 
@@ -465,8 +717,6 @@
 
 	}
 
-
-
 	/**
 	* 
 	* BT menu
@@ -484,8 +734,8 @@
 		function init() {
 
 			var menu = document.getElementById( 'bt-menu' ),
-			trigger = menu.querySelector( 'a.bt-menu-trigger' ),
-			// event type (if mobile, use touch events)
+			// trigger = menu.querySelector( 'a.bt-menu-trigger' ),
+			trigger2 = document.getElementById( 'nav-menu' ).querySelector( 'a.bt-menu-trigger-2' ),
 			eventtype = mobilecheck() ? 'touchstart' : 'click',
 			resetMenu = function() {
 				classie.remove( menu, 'bt-menu-open' );
@@ -500,26 +750,161 @@
 			overlay.className = 'bt-overlay';
 			menu.appendChild( overlay );
 
-			trigger.addEventListener( eventtype, function( ev ) {
+			// trigger.addEventListener( eventtype, function( ev ) {
+			// 	ev.stopPropagation();
+			// 	ev.preventDefault();
+
+			// 	if( classie.has( menu, 'bt-menu-open' ) ) {
+			// 		resetMenu();
+			// 		$('h2').fadeIn();
+			// 		// $('canvas.sketch').remove();
+			// 		$('.sketch').removeClass('active');
+			// 	}
+			// 	else {
+			// 		classie.remove( menu, 'bt-menu-close' );
+			// 		classie.add( menu, 'bt-menu-open' );
+			// 		$('h2').fadeOut();
+			// 		overlay.addEventListener( eventtype, closeClickFn );
+			// 		// setTimeout(webGL, 500);
+			// 		$('.sketch').addClass('active');
+			// 	}
+			// });
+			trigger2.addEventListener( eventtype, function( ev ) {
 				ev.stopPropagation();
 				ev.preventDefault();
 
 				if( classie.has( menu, 'bt-menu-open' ) ) {
 					resetMenu();
 					$('h2').fadeIn();
+					// $('canvas.sketch').remove();
+					$('.sketch').removeClass('active');
 				}
 				else {
 					classie.remove( menu, 'bt-menu-close' );
 					classie.add( menu, 'bt-menu-open' );
 					$('h2').fadeOut();
 					overlay.addEventListener( eventtype, closeClickFn );
+					// setTimeout(webGL, 500);
+					$('.sketch').addClass('active');
 				}
 			});
-
 		}
 
 		init();
 
 	})();
+
+	// Generated by CoffeeScript 1.6.3
+	function webGL() {
+		var GLSL, error, gl, gui, nogl;
+
+		GLSL = {
+			vert: "\n#ifdef GL_ES\nprecision mediump float;\n#endif\n\n// Uniforms\nuniform vec2 u_resolution;\n\n// Attributes\nattribute vec2 a_position;\n\nvoid main() {\n    gl_Position = vec4 (a_position, 0, 1);\n}\n",
+			frag: "\n#ifdef GL_ES\nprecision mediump float;\n#endif\n\nuniform bool u_scanlines;\nuniform vec2 u_resolution;\n\nuniform float u_brightness;\nuniform float u_blobiness;\nuniform float u_particles;\nuniform float u_millis;\nuniform float u_energy;\n\n// http://goo.gl/LrCde\nfloat noise( vec2 co ){\n    return fract( sin( dot( co.xy, vec2( 12.9898, 78.233 ) ) ) * 43758.5453 );\n}\n\nvoid main( void ) {\n\n    vec2 position = ( gl_FragCoord.xy / u_resolution.x );\n    float t = u_millis * 0.001 * u_energy;\n    \n    float a = 0.0;\n    float b = 0.0;\n    float c = 0.0;\n\n    vec2 pos, center = vec2( 0.5, 0.5 * (u_resolution.y / u_resolution.x) );\n    \n    float na, nb, nc, nd, d;\n    float limit = u_particles / 20.0;\n    float step = 0.2 / u_particles;\n    float n = 0.5;\n    \n    for ( float i = 0.0; i <= 1.0; i += 0.025 ) {\n\n        if ( i <= limit ) {\n\n            vec2 np = vec2(n, 1-1);\n            \n            na = noise( np * 1.1 );\n            nb = noise( np * 2.8 );\n            nc = noise( np * 0.7 );\n            nd = noise( np * 3.2 );\n\n            pos = center;\n            pos.x += sin(t*na) * cos(t*nb) * tan(t*na*0.15) * 0.3;\n            pos.y += tan(t*nc) * sin(t*nd) * 0.1;\n            \n            d = pow( 1.6*na / length( pos - position ), u_blobiness );\n            \n            if ( i < limit * 0.3333 ) a += d;\n            else if ( i < limit * 0.6666 ) b += d;\n            else c += d;\n\n            n += step;\n        }\n    }\n    \n    vec3 col = vec3(a*c,b*c,a*b) * 0.0001 * u_brightness;\n    \n    if ( u_scanlines ) {\n        col -= mod( gl_FragCoord.y, 1.0 ) < 1.0 ? 0.5 : 0.0;\n    }\n    \n    gl_FragColor = vec4( col, 1.0 );\n\n}\n"
+		};
+
+		try {
+			gl = Sketch.create({
+				container: document.getElementById('main'),
+				type: Sketch.WEBGL,
+				brightness: 0.8,
+				blobiness: 1.5,
+				particles: 30,
+				energy: 0.3,
+				scanlines: true
+			});
+		} catch (_error) {
+			error = _error;
+			nogl = document.getElementById('nogl');
+			nogl.style.display = 'block';
+		}
+
+		if (gl) {
+			gl.setup = function() {
+				var frag, vert;
+				this.clearColor(0.5, 0.5, 0.5, 1.0);
+				vert = this.createShader(this.VERTEX_SHADER);
+				frag = this.createShader(this.FRAGMENT_SHADER);
+				this.shaderSource(vert, GLSL.vert);
+				this.shaderSource(frag, GLSL.frag);
+				this.compileShader(vert);
+				this.compileShader(frag);
+				if (!this.getShaderParameter(vert, this.COMPILE_STATUS)) {
+					throw this.getShaderInfoLog(vert);
+				}
+				if (!this.getShaderParameter(frag, this.COMPILE_STATUS)) {
+					throw this.getShaderInfoLog(frag);
+				}
+				this.shaderProgram = this.createProgram();
+				this.attachShader(this.shaderProgram, vert);
+				this.attachShader(this.shaderProgram, frag);
+				this.linkProgram(this.shaderProgram);
+				if (!this.getProgramParameter(this.shaderProgram, this.LINK_STATUS)) {
+					throw this.getProgramInfoLog(this.shaderProgram);
+				}
+				this.useProgram(this.shaderProgram);
+				this.shaderProgram.attributes = {
+					position: this.getAttribLocation(this.shaderProgram, 'a_position')
+				};
+				this.shaderProgram.uniforms = {
+					resolution: this.getUniformLocation(this.shaderProgram, 'u_resolution'),
+					brightness: this.getUniformLocation(this.shaderProgram, 'u_brightness'),
+					blobiness: this.getUniformLocation(this.shaderProgram, 'u_blobiness'),
+					particles: this.getUniformLocation(this.shaderProgram, 'u_particles'),
+					scanlines: this.getUniformLocation(this.shaderProgram, 'u_scanlines'),
+					energy: this.getUniformLocation(this.shaderProgram, 'u_energy'),
+					millis: this.getUniformLocation(this.shaderProgram, 'u_millis')
+				};
+				this.geometry = this.createBuffer();
+				this.geometry.vertexCount = 6;
+				this.bindBuffer(this.ARRAY_BUFFER, this.geometry);
+				this.bufferData(this.ARRAY_BUFFER, new Float32Array([-1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0]), this.STATIC_DRAW);
+				this.enableVertexAttribArray(this.shaderProgram.attributes.position);
+				this.vertexAttribPointer(this.shaderProgram.attributes.position, 2, this.FLOAT, false, 0, 0);
+				return this.resize();
+			};
+			gl.updateUniforms = function() {
+				if (!this.shaderProgram) {
+					return;
+				}
+				this.uniform2f(this.shaderProgram.uniforms.resolution, this.width, this.height);
+				this.uniform1f(this.shaderProgram.uniforms.brightness, this.brightness);
+				this.uniform1f(this.shaderProgram.uniforms.blobiness, this.blobiness);
+				this.uniform1f(this.shaderProgram.uniforms.particles, this.particles);
+				this.uniform1i(this.shaderProgram.uniforms.scanlines, this.scanlines);
+				return this.uniform1f(this.shaderProgram.uniforms.energy, this.energy);
+			};
+			gl.draw = function() {
+				this.uniform1f(this.shaderProgram.uniforms.millis, this.millis + 5000);
+				this.clear(this.COLOR_BUFFER_BIT | this.DEPTH_BUFFER_BIT);
+				this.bindBuffer(this.ARRAY_BUFFER, this.geometry);
+				return this.drawArrays(this.TRIANGLES, 0, this.geometry.vertexCount);
+			};
+			gl.resize = function() {
+				this.viewport(0, 0, this.width, this.height);
+				return this.updateUniforms();
+			};
+			// gui = new dat.GUI();
+			// gui.add(gl, 'particles').step(1.0).min(8).max(40).onChange(function() {
+			// 	return gl.updateUniforms();
+			// });
+			// gui.add(gl, 'brightness').step(0.01).min(0.1).max(1.0).onChange(function() {
+			// 	return gl.updateUniforms();
+			// });
+			// gui.add(gl, 'blobiness').step(0.01).min(0.8).max(1.5).onChange(function() {
+			// 	return gl.updateUniforms();
+			// });
+			// gui.add(gl, 'energy').step(0.01).min(0.1).max(4.0).onChange(function() {
+			// 	return gl.updateUniforms();
+			// });
+			// gui.add(gl, 'scanlines').onChange(function() {
+			// 	return gl.updateUniforms();
+			// });
+			// gui.close();
+		}
+
+	}
+// .call(this);
+
 
 })(jQuery, window, document);

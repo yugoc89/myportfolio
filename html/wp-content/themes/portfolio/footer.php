@@ -3,20 +3,11 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="<?php echo get_template_directory_uri(); ?>/assets/js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
 		
-		<!-- <script data-main="<?php echo get_template_directory_uri(); ?>/assets/js/scripts.min" src="<?php echo get_template_directory_uri(); ?>/assets/js/require.js" type="text/javascript"></script> -->
+<!-- 		<script src="http://soulwire.github.io/sketch.js/js/sketch.min.js"></script>
+		<script src="http://dat-gui.googlecode.com/git/build/dat.gui.min.js"></script> -->
 		<script src="<?php echo get_template_directory_uri(); ?>/assets/js/scripts.min.js"></script>
 		<script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.hashchange.min.js"></script>
-		<script>
-			// (function($){
-			// 	$(window).load(function(){
-			// 		$(".about-left").mCustomScrollbar();
-			// 		$(".items-right").mCustomScrollbar();
-			// 		$(".items-left").mCustomScrollbar();
-			// 		$(".contact-left").mCustomScrollbar();
-			// 		$(".single-left").mCustomScrollbar();
-			// 	});
-			// })(jQuery);
-		</script>
+		<script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.colorbox-min.js"></script>
 
 		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 		<script>

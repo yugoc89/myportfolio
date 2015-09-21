@@ -3,20 +3,16 @@
 		animation-duration: 0.25s;
 		transition-timing-function: ease-in;
 		animation-fill-mode: both;
+		&--fadein {
+			animation-name: fadeIn;
+		}
+		&--fadeinup {
+			animation-name: fadeInUp;
+		}
+		&--fadeinright {
+			animation-name: fadeInRight;
+		}
 	}
-
-	.scene_element--fadein {
-		animation-name: fadeIn;
-	}
-
-	.scene_element--fadeinup {
-		animation-name: fadeInUp;
-	}
-
-	.scene_element--fadeinright {
-		animation-name: fadeInRight;
-	}
-
 /** Reverse "exit" animations */
 	&.is-exiting {
 		.scene_element {
@@ -33,53 +29,62 @@
 	left: 0;
 	visibility: hidden;
 	z-index: 9999;
+	&.show {
+		visibility: visible;
+	}
+	svg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		pointer-events: none;
+		path {
+			fill: #fff;
+		}
+	}
+	&:before, &:after {
+		content: '';
+		position: fixed;
+		width: 20px;
+		height: 20px;
+		top: 50%;
+		left: 50%;
+		margin: -10px 0 0 -10px;
+		border-radius: 50%;
+		visibility: hidden;
+		opacity: 0;
+		z-index: 1000;
+		@include vendor(transition, opacity 0.15s, visibility 0s 0.15s);
+	}
+	&:before {
+		background: #4fc3f7;
+		@include vendor(transform, translateX(20px));
+		@include vendor(animation, moveLeft 0.6s linear infinite alternate);
+	}
+	&:after {
+		background: #6cc88a;
+		@include vendor(transform, translateX(-20px));
+		@include vendor(animation, moveRight 0.6s linear infinite alternate);
+	}
 }
-.pageload-overlay.show {
-	visibility: visible;
+
+@-ms-keyframes moveRight {
+	to { -ms-transform: translateX(20px); }
 }
-.pageload-overlay svg {
-	position: absolute;
-	top: 0;
-	left: 0;
-	pointer-events: none;
-}
-.pageload-overlay svg path {
-	fill: #fff;
-}
-.pageload-overlay::after,
-.pageload-overlay::before {
-	content: '';
-	position: fixed;
-	width: 20px;
-	height: 20px;
-	top: 50%;
-	left: 50%;
-	margin: -10px 0 0 -10px;
-	border-radius: 50%;
-	visibility: hidden;
-	opacity: 0;
-	z-index: 1000;
-	@include vendor(transition, opacity 0.15s, visibility 0s 0.15s);
-}
-.pageload-overlay::after {
-	background: #6cc88a;
-	-webkit-transform: translateX(-20px);
-	transform: translateX(-20px);
-	-webkit-animation: moveRight 0.6s linear infinite alternate;
-	animation: moveRight 0.6s linear infinite alternate;
-}
-.pageload-overlay::before {
-	background: #4fc3f7;
-	-webkit-transform: translateX(20px);
-	transform: translateX(20px);
-	-webkit-animation: moveLeft 0.6s linear infinite alternate;
-	animation: moveLeft 0.6s linear infinite alternate;
+@-o-keyframes moveRight {
+	to { -o-transform: translateX(20px); }
 }
 @-webkit-keyframes moveRight {
 	to { -webkit-transform: translateX(20px); }
 }
 @keyframes moveRight {
 	to { transform: translateX(20px); }
+}
+
+@-ms-keyframes moveLeft {
+	to { -ms-transform: translateX(-20px); }
+}
+@-o-keyframes moveLeft {
+	to { -o-transform: translateX(-20px); }
 }
 @-webkit-keyframes moveLeft {
 	to { -webkit-transform: translateX(-20px); }
@@ -94,104 +99,8 @@
 	@include vendor(transition, opacity 0.3s);
 }
 
-@font-face {
-	font-weight: normal;
-	font-style: normal;
-	font-family: 'Blokk';
-	src: url('../fonts/blokk/BLOKKRegular.eot');
-	src: url('../fonts/blokk/BLOKKRegular.eot?#iefix') format('embedded-opentype'),
-		 url('../fonts/blokk/BLOKKRegular.woff') format('woff'),
-		 url('../fonts/blokk/BLOKKRegular.svg#BLOKKRegular') format('svg');
-}
 
-@font-face {
-	font-weight: normal;
-	font-style: normal;
-	font-family: 'feather';
-	src:url('../fonts/feather/feather.eot?-9jv4cc');
-	src:url('../fonts/feather/feather.eot?#iefix-9jv4cc') format('embedded-opentype'),
-		url('../fonts/feather/feather.woff?-9jv4cc') format('woff'),
-		url('../fonts/feather/feather.ttf?-9jv4cc') format('truetype'),
-		url('../fonts/feather/feather.svg?-9jv4cc#feather') format('svg');
-}
-
-@font-face {
-	font-weight: normal;
-	font-style: normal;
-	font-family: 'Blokk';
-	src: url('../fonts/blokk/BLOKKRegular.eot');
-	src: url('../fonts/blokk/BLOKKRegular.eot?#iefix') format('embedded-opentype'),
-		 url('../fonts/blokk/BLOKKRegular.woff') format('woff'),
-		 url('../fonts/blokk/BLOKKRegular.svg#BLOKKRegular') format('svg');
-}
-
-@font-face {
-	font-weight: normal;
-	font-style: normal;
-	font-family: 'feather';
-	src:url('../fonts/feather/feather.eot?-9jv4cc');
-	src:url('../fonts/feather/feather.eot?#iefix-9jv4cc') format('embedded-opentype'),
-		url('../fonts/feather/feather.woff?-9jv4cc') format('woff'),
-		url('../fonts/feather/feather.ttf?-9jv4cc') format('truetype'),
-		url('../fonts/feather/feather.svg?-9jv4cc#feather') format('svg');
-}
-
-.header {
-	.dummy_bg {
-		position: fixed;
-		width: 50%;
-		height: 100%;
-		background: rgba(255,255,255,0.7);
-		z-index: 99;
-	}
-	.bg--left {
-		left: 0;
-	}
-	.bg--right {
-		right: 0;
-	}
-	.ip-inner {
-		display: block;
-		margin: 0 auto;
-	}
-	.ip-loader {
-		position: absolute;
-		bottom: 50%;
-		left: 0;
-		width: 100%;
-		opacity: 0;
-		cursor: default;
-		pointer-events: none;
-		z-index: 999;
-		svg {
-			path {
-				fill: none;
-				stroke-width: 6;
-			}
-			path.ip-loader-circlebg {
-				stroke: #ddd;
-			}
-			path.ip-loader-circle {
-				-webkit-transition: stroke-dashoffset 0.2s;
-				transition: stroke-dashoffset 0.2s;
-				stroke: $red;
-			}
-		}
-	}
-	.ip-logo {
-		svg {
-			min-width: 320px;
-			max-width: 480px;
-			width: 25%;
-			path {
-				fill: $red;
-			}
-		}
-	}
-
-}
 /* Animations */
-
 /* Initial animation of header elements */
 
 .loading {
@@ -199,6 +108,9 @@
 		opacity: 1;
 		@include vendor(animation, animInitialHeader 1s cubic-bezier(0.7,0,0.3,1) both);
 		@include vendor(animation-delay, 0.2s);
+	}
+	#page-title span {
+		opacity: 0;
 	}
 	.content--home {
 		.title {
@@ -208,11 +120,12 @@
 		}
 	}
 }
-.section, .content--single-work h3 {
+.section {
 	@include vendor(animation, animInitialContents 1s cubic-bezier(0.7,0,0.3,1) both);
 	@include vendor(animation-delay, 0.2s);
 	opacity: 0;
 }
+
 @-ms-keyframes animInitialHeader {
 	from { opacity: 0; -ms-transform: translate3d(0,50%,0); }
 }
@@ -241,11 +154,13 @@
 
 /* Header elements when loading finishes */
 .loaded {
-	.bg--left {
-		@include vendor(animation, animLoadedHeader 0.4s cubic-bezier(0.7,0,0.3,1) forwards);
-	}
-	.bg--right {
-		@include vendor(animation, animLoadedHeaderMinus 0.4s cubic-bezier(0.7,0,0.3,1) forwards);
+	.bg {
+		&--left {
+			@include vendor(animation, animLoadedHeader 0.4s cubic-bezier(0.7,0,0.3,1) forwards);
+		}
+		&--right {
+			@include vendor(animation, animLoadedHeaderMinus 0.4s cubic-bezier(0.7,0,0.3,1) forwards);
+		}
 	}
 	.ip-loader {
 		opacity: 1;
@@ -261,72 +176,132 @@
 			}
 		}
 	}
-	.section, .content--single-work h3 {
+	#page-title span {
+		opacity: 1;
+		@include vendor(transition, opacity 0.5s);
+		// @include vendor(animation, animLoadedTitle 0.5s cubic-bezier(0.7,0,0.3,1) forwards);
+		@for $i from 1 through 11 {
+			&:nth-of-type(#{$i}) {
+				// @include vendor(animation-delay, 0.1 + $i * 0.05s);
+				@include vendor(transition-delay, 0.1 + $i * 0.05s);
+			}
+		}
+	}
+	.section {
 		opacity: 1;
 		@include vendor(animation, animLoadedContents 1s cubic-bezier(0.7,0,0.3,1) forwards);
 	}
+
+	.content {
+		&--home {
+			.title {
+				h1 {
+					@include vendor(animation, animLoadedTitle 1s cubic-bezier(0.7,0,0.3,1) forwards);
+				}
+			}
+			.section--menu {
+				@include vendor(animation, animLoadedBG 0.5s cubic-bezier(0.7,0,0.3,1) both);
+				li {
+					@include vendor(animation, animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both);
+					&:first-child {
+						@include vendor(animation-delay, 0.4s)
+					}
+					&:nth-child(2) {
+						@include vendor(animation-delay, 0.6s);
+					}
+					&:nth-child(3) {
+						@include vendor(animation-delay, 0.8s);
+					}
+					&:nth-child(4) {
+						@include vendor(animation-delay, 1s);	
+					}
+				}
+			}
+		}
+		&--about {
+			.content-inner {
+				.box-inner {
+					@include vendor(animation, animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both);
+					&:first-child {
+						@include vendor(animation-delay, 0.1s);
+					}
+					&:nth-child(2) {
+						@include vendor(animation-delay, 0.2s);		
+					}
+					&:nth-child(3) {
+						@include vendor(animation-delay, 0.4s);		
+					}
+				}
+			}
+			h2 {
+				@include vendor(animation, animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both);
+				@include vendor(animation-delay, 0.1s);
+			}
+		}
+		&--work {
+			.items__panel {
+				@include vendor(animation, animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both);
+				@for $i from 1 through 10 {
+					&:nth-of-type(#{$i}) {
+						@include vendor(animation-delay, #{$i * 60}ms);
+					}
+				}
+			}
+		}
+		&--work-single {
+			h3, .text-area {
+				@include vendor(animation, animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both);
+				@include vendor(animation-delay, 0.1s);
+			}
+			.items-right {
+				@include vendor(animation, animLoadedContent 1.2s cubic-bezier(0.7,0,0.3,1) both);
+				@include vendor(animation-delay, 0.5s);
+			}
+		}
+	}
+}
+
+.loaded.reload {
 	.content--home {
 		.title {
 			h1 {
-				@include vendor(animation, animLoadedTitle 1s cubic-bezier(0.7,0,0.3,1) forwards);
+				@include vendor(animation, animReloadTitle 1s cubic-bezier(0.7,0,0.3,1) forwards);
 			}
 		}
 		.section--menu {
-			@include vendor(animation, animLoadedBG 0.5s cubic-bezier(0.7,0,0.3,1) both);
+			@include vendor(animation, animReloadBG 0.5s cubic-bezier(0.7,0,0.3,1) both);
 			li {
-				@include vendor(animation, animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both);
-				&:first-child {
-					@include vendor(animation-delay, 0.4s)
-				}
-				&:nth-child(2) {
-					@include vendor(animation-delay, 0.6s);
-				}
-				&:nth-child(3) {
-					@include vendor(animation-delay, 0.8s);
-				}
-				&:nth-child(4) {
-					@include vendor(animation-delay, 1s);	
-				}
+				@include vendor(animation, animReloadContent 1s cubic-bezier(0.7,0,0.3,1) both);
+			}
+			li:first-child {
+				@include vendor(animation-delay, 0.4s);
+			}
+			li:nth-child(2) {
+				@include vendor(animation-delay, 0.6s);
+			}
+			li:nth-child(3) {
+				@include vendor(animation-delay, 0.8s);
+			}
+			li:nth-child(4) {
+				@include vendor(animation-delay, 1s);
 			}
 		}
 	}
-	.content--about {
-		.left {
-			.box-inner {
-				@include vendor(animation, animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both);
-				&:first-child {
-					@include vendor(animation-delay, 0.1s);
-				}
-				&:nth-child(2) {
-					@include vendor(animation-delay, 0.2s);		
-				}
-			}
-		}
-		h2 {
-			@include vendor(animation, animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both);
-			@include vendor(animation-delay, 0.1s);
-		}
-	}
-	.content--work {
-		.items__panel {
-			@include vendor(animation, animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both);
-			@for $i from 1 through 10 {
-				&:nth-of-type(#{$i}) {
-					@include vendor(animation-delay, #{$i * 60}ms);
-				}
-			}
-		}
-	}
-	.content--single-work {
-		h3, .text-area {
-			@include vendor(animation, animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both);
-			@include vendor(animation-delay, 0.1s);
-		}
-		.items-right {
-			@include vendor(animation, animLoadedContent 1.2s cubic-bezier(0.7,0,0.3,1) both);
-			@include vendor(animation-delay, 0.5s);
-		}
-	}
+}
+
+/* Change layout class for header */
+.layout-switch .ip-header {
+	position: absolute;
+}
+
+/* No JS */
+.no-js .header {
+	position: relative;
+	min-height: 0px;
+}
+
+.no-js .header .ip-logo svg path {
+	fill: #fff;
 }
 
 /* LOADED LOGO ANIMATION */
@@ -439,33 +414,7 @@
 	from { opacity: 0; @include vendor(transform, translate3d(0,0,200px)); }
 }
 
-.loaded.reload {
-	.content--home {
-		.title {
-			h1 {
-				@include vendor(animation, animReloadTitle 1s cubic-bezier(0.7,0,0.3,1) forwards);
-			}
-		}
-		.section--menu {
-			@include vendor(animation, animReloadBG 0.5s cubic-bezier(0.7,0,0.3,1) both);
-			li {
-				@include vendor(animation, animReloadContent 1s cubic-bezier(0.7,0,0.3,1) both);
-			}
-			li:first-child {
-				@include vendor(animation-delay, 0.4s);
-			}
-			li:nth-child(2) {
-				@include vendor(animation-delay, 0.6s);
-			}
-			li:nth-child(3) {
-				@include vendor(animation-delay, 0.8s);
-			}
-			li:nth-child(4) {
-				@include vendor(animation-delay, 1s);
-			}
-		}
-	}
-}
+
 
 /* RELOAD ANIMATION ON TITLE */
 @-webkit-keyframes animReloadTitle {
@@ -482,325 +431,21 @@
 	to { -webkit-transform: translate3d(0,-100%,0); transform: translate3d(0,-100%,0); }
 }
 
-/* Change layout class for header */
-.layout-switch .ip-header {
-	position: absolute;
-}
 
-/* No JS */
-.no-js .header {
-	position: relative;
-	min-height: 0px;
-}
-
-.no-js .header .ip-logo svg path {
-	fill: #fff;
-}
-
-.home {
-	.bt-menu {
-		opacity: 0;
-		visibility: hidden;
-	}
-}
-
-.bt-menu {
-	position: fixed;
-	// overflow: hidden;
-	top: 0;
-	//left: 50%;
-	//right: 0;
-	width: 0;
-	height: 0;
-	border-width: 0px;
-	border-style: solid;
-	border-color: rgba(51, 51, 51, 0.59);
-	background-color: rgba(0,0,0,0);
-	z-index: 999;
-	@include vendor(transition, all 0.3s cubic-bezier(.64,.08,.61,1));
-	&:before {
-		@include vendor(transition, all 0.7s cubic-bezier(.64,.08,.61,1));
-		@include pseudo(100%, 100%);
-		top: 0;
-		right: 0;
-		background-color: rgba(255,255,255,0.95);
-		opacity: 0;
-		//background-image: $dreamy;
-		//opacity: 0.9;
-	}
-	p.menu-top {
-		margin: 5px 10px;
-		padding: 5px 20px 10px 5px;
-		border-bottom: 3px inset #5cb;
-		font-size: 36px;
-		color: #fff;
-		visibility: visible;
-		font-family: 'Open Sans Condensed', sans-serif;
-		font-weight: bold;
-		text-align: center;
-	}
-	ul {
-		@include vendor(transform, translateY(-50%));
-		position: absolute;
-		top: 50%;
-		right: 0;
-		left: 0;
-		margin: auto;
-		padding: 0;
-		text-align: center;
-		list-style: none;
-		backface-visibility: hidden;
-		opacity: 0;
-		li {
-			display: block;
-			font-size: 4em;
-			margin: 0 3% 1%;
-			opacity: 0;
-			text-align: center;
-			visibility: hidden;
-			// @include vendor(transform, transform 0.3s, opacity 0.2s, visibility 0s 0.3s);
-		}
-		li:first-child { 
-			@include vendor(transform, translate3d(200%,100%,0));
-		}
-		li:nth-child(2) { 
-			@include vendor(transform, translate3d(100%,100%,0));
-		}
-		li:nth-child(3) {
-			@include vendor(transform, translate3d(0%,100%,0)); 
-		}
-		li:nth-child(4) { 
-			@include vendor(transform, translate3d(-100%,100%,0)); 
-		}
-		li:nth-child(5) { 
-			@include vendor(transform, translate3d(-200%,100%,0)); 
-		}
-	}
-	ul.clicked {
-		li:first-child { 
-			@include vendor(transform, translate3d(100%,200%,0));
-		}
-		li:nth-child(2) { 
-			@include vendor(transform, translate3d(100%,100%,0));
-		}
-		li:nth-child(3) {
-			@include vendor(transform, translate3d(100%,0,0)); 
-		}
-		li:nth-child(4) { 
-			@include vendor(transform, translate3d(100%,-100%,0)); 
-		}
-		li:nth-child(5) { 
-			@include vendor(transform, translate3d(100%,-200%,0)); 
-		}
-	}
-}
-.bt-menu.bt-menu-open {
-	//position: relative;
-	width: 100%;
-	height: 100%;
-	right: 0;
-	&:before {
-		opacity: 1;
-	}
-	.bt-overlay {
-		position: fixed;
-		top: 0;
-		left: 0;
-		//width: 50%;
-		height: 100%;
-		//background: rgba(255,255,255,0.8);
-	}
-	ul {
-		opacity: 1;
-		z-index: 1;
-		li {
-			visibility: visible;
-			opacity: 1;
-			@include vendor(transition, transform 0.3s, opacity 0.3s);
-			@include vendor(transform, translate3d(0,0,0));
-			a {
-				position: relative;
-				display: inline-block;
-				text-decoration: none;
-				letter-spacing: -4px;
-				color: $main-colour;
-				@include vendor(transition, all 0.5s);
-				&:hover {
-					color: #000;
-					&:before {
-						width: 100%;
-						left: 0;
-					}
-				}
-				&:before {
-					@include pseudo(0, 2px);
-					@include vendor(transition, all 0.5s);
-					bottom: 15px;
-					left: 50%;
-					background: $red; 
-				}
-			}
-			&:first-child { 
-				@include vendor(transition, transform 1.4s, opacity 0.5s, visibility 0s 0.3s);
-			}
-			&:nth-child(2) { 
-				@include vendor(transition, transform 1.2s, opacity 0.7s, visibility 0s 0.3s);
-			}
-			&:nth-child(3) {
-				@include vendor(transition, transform 1.0s, opacity 0.9s, visibility 0s 0.3s);
-			}
-			&:nth-child(4) {  
-				@include vendor(transition, transform 1.2s, opacity 1.1s, visibility 0s 0.3s);
-			}
-			&:nth-child(5) {  
-				@include vendor(transition, transform 1.4s, opacity 1.3s, visibility 0s 0.3s);
-			}
-		}
-	}
-}
-.bt-menu-trigger {
-	position: fixed;
-	display: block;
-	width: 48px;
-	height: 44px;
-	top: 15px;
-	right: 20px;
-	margin: auto;
-	color: transparent;
-	cursor: pointer;
-	z-index: 9999;
-	//@include vendor(transform, rotate(45deg));
-	span {
-		position: absolute;
-		display: block;
-		top: 20px;
-		right: 0;
-		left: 0;
-		width: 32px;
-		height: 2px;
-		margin: auto;
-		background-color: #000;
-		font-size: 0px;
-		user-select: none;	
-		@include vendor(transition, all 0.5s);
-		&:before, &:after {
-			@include pseudo(100%,100%);
-			@include vendor(transition, all 0.5s);
-			left: 0;
-			background: #000;	
-		}
-		&:before {
-			@include vendor(transform, translateY(-440%));
-		}
-		&:after {
-			@include vendor(transform, translateY(440%));
-		}
-	}
-	&:hover {
-		span {
-			&:before {
-				@include vendor(transform, translateY(-580%));
-			}
-			&:after {
-				@include vendor(transform, translateY(580%));
-			}
-		}	
-	}
-}
-
-.bt-menu-open {
-	.bt-menu-trigger {
-		span {
-			@include vendor(transition, all 0.1s);
-			background-color: transparent;
-			&:before {
-				@include vendor(transform, translateY(0) rotate(45deg));
-			}
-			&:after {
-				@include vendor(transform, translateY(0) rotate(-45deg));
-			}
-		}
-	}
-}
-
-.sleep {
-	@include vendor(transition, all 0.3s);
-	top: 400px;
-}
-.sprout {
-	@include vendor(transform, translateY(0));
-}
-
-#load {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 0;
-	opacity: 0;
-	visibility: hidden;
-	&.loading {
-		opacity: 1;
-		visibility: visible;
-		background-color: #fff;
-		z-index: 99999;
-		span {
-			// &.load--large, &.load--small {
-			// 	@include vendor(animation, loading 1.5s cubic-bezier(0.7,0,0.3,1) forwards);
-			// }
-		}
-	}
-	span {
-		display: block;
-		width: 0;
-		height: 100%;
-		background: #fff;
-		&.load--large, &.load--small {
-			//@include vendor(transition, width 0.4s);
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			margin: auto;
-			background-color: #fff;
-			opacity: 0.7;
-		}
-		&.load--large {
-			@include pseudo(100%, 100%);
-		}
-		&.load--small {
-			@include pseudo(80%, 80%);
-			background-color: $red;
-		}
-	}
-}
-
-@-webkit-keyframes loading {
-	10% { width: 4px; }
-	50% { 
-		width: 4px; 
-		height: 100px; 
-	}
-	80% { 
-		@include vendor(transform, rotate(90deg));
-		width: 4px;
-		height: 100px; 
-	}
-}
-
-.comein {
-	@include vendor(transform, translateY(150px));
-	@include vendor(animation, comein 0.8s cubic-bezier(0.7,0,0.3,1) forwards);
-}
-// .come-in:nth-child(odd) {
-//   animation-duration: 0.6s;
-// }
 .visible {
 	@include vendor(transform, translateY(0));
 	animation: none;
 }
-
+.comein {
+	@include vendor(transform, translateY(150px));
+	@include vendor(animation, comein 0.8s cubic-bezier(0.7,0,0.3,1) forwards);
+}
+@-ms-keyframes comein {
+	to { @include vendor(transform, translateY(0));}
+}
+@-o-keyframes comein {
+	to { @include vendor(transform, translateY(0));}
+}
 @-webkit-keyframes comein {
 	to { @include vendor(transform, translateY(0));}
 }

@@ -1,0 +1,452 @@
+.m-scene {
+	.scene_element {
+		animation-duration: 0.25s;
+		transition-timing-function: ease-in;
+		animation-fill-mode: both;
+		&--fadein {
+			animation-name: fadeIn;
+		}
+		&--fadeinup {
+			animation-name: fadeInUp;
+		}
+		&--fadeinright {
+			animation-name: fadeInRight;
+		}
+	}
+/** Reverse "exit" animations */
+	&.is-exiting {
+		.scene_element {
+			animation-direction: alternate-reverse;
+		}
+	}
+}
+
+.pageload-overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	visibility: hidden;
+	z-index: 9999;
+	&.show {
+		visibility: visible;
+	}
+	svg {
+		position: absolute;
+		top: 0;
+		left: 0;
+		pointer-events: none;
+		path {
+			fill: #fff;
+		}
+	}
+	&:before, &:after {
+		content: '';
+		position: fixed;
+		width: 20px;
+		height: 20px;
+		top: 50%;
+		left: 50%;
+		margin: -10px 0 0 -10px;
+		border-radius: 50%;
+		visibility: hidden;
+		opacity: 0;
+		z-index: 1000;
+		transition: opacity 0.15s, visibility 0s 0.15s;
+	}
+	&:before {
+		background: #4fc3f7;
+		transform: translateX(20px);
+		animation: moveLeft 0.6s linear infinite alternate;
+	}
+	&:after {
+		background: #6cc88a;
+		transform: translateX(-20px);
+		animation: moveRight 0.6s linear infinite alternate;
+	}
+}
+
+@-ms-keyframes moveRight {
+	to { -ms-transform: translateX(20px); }
+}
+@-o-keyframes moveRight {
+	to { -o-transform: translateX(20px); }
+}
+@-webkit-keyframes moveRight {
+	to { -webkit-transform: translateX(20px); }
+}
+@keyframes moveRight {
+	to { transform: translateX(20px); }
+}
+
+@-ms-keyframes moveLeft {
+	to { -ms-transform: translateX(-20px); }
+}
+@-o-keyframes moveLeft {
+	to { -o-transform: translateX(-20px); }
+}
+@-webkit-keyframes moveLeft {
+	to { -webkit-transform: translateX(-20px); }
+}
+@keyframes moveLeft {
+	to { transform: translateX(-20px); }
+}
+.pageload-loading.pageload-overlay::after,
+.pageload-loading.pageload-overlay::before {
+	opacity: 1;
+	visibility: visible;
+	transition: opacity 0.3s;
+}
+
+
+/* Animations */
+/* Initial animation of header elements */
+
+.loading {
+	.ip-loader {
+		opacity: 1;
+		animation: animInitialHeader 1s cubic-bezier(0.7,0,0.3,1) both;
+		animation-delay: 0.2s;
+	}
+	#page-title span {
+		opacity: 0;
+	}
+	.content--home {
+		.title {
+			h1 {
+				opacity: 0;
+			}
+		}
+	}
+}
+.section {
+	animation: animInitialContents 1s cubic-bezier(0.7,0,0.3,1) both;
+	animation-delay: 0.2s;
+	opacity: 0;
+}
+
+@-ms-keyframes animInitialHeader {
+	from { opacity: 0; -ms-transform: translate3d(0,50%,0); }
+}
+@-o-keyframes animInitialHeader {
+	from { opacity: 0; -o-transform: translate3d(0,50%,0); }
+}
+@-webkit-keyframes animInitialHeader {
+	from { opacity: 0; -webkit-transform: translate3d(0,50%,0); }
+}
+@keyframes animInitialHeader {
+	from { opacity: 0; transform: translate3d(0,50%,0); }
+}
+
+@-ms-keyframes animInitialContents {
+	from { opacity: 0; -ms-transform: scale(0); }
+}
+@-o-keyframes animInitialContents {
+	from { opacity: 0; -o-transform: scale(0); }
+}
+@-webkit-keyframes animInitialContents {
+	from { opacity: 0; -webkit-transform: scale(0); }
+}
+@keyframes animInitialContents {
+	from { opacity: 0; transform: scale(0); }
+}
+
+/* Header elements when loading finishes */
+.loaded {
+	.bg {
+		&--left {
+			animation: animLoadedHeader 0.4s cubic-bezier(0.7,0,0.3,1) forwards;
+		}
+		&--right {
+			animation: animLoadedHeaderMinus 0.4s cubic-bezier(0.7,0,0.3,1) forwards;
+		}
+	}
+	.ip-loader {
+		opacity: 1;
+		animation: animLoadedLoader 0.5s cubic-bezier(0.7,0,0.3,1) forwards;
+	}
+	.ip-logo {
+		transform-origin: 50% 0;
+		animation: animLoadedLogo 1s cubic-bezier(0.7,0,0.3,1) forwards;
+		svg {
+			path {
+				transition: all 0.5s ease 0.3s;
+				fill: #fff;
+			}
+		}
+	}
+	#page-title span {
+		opacity: 1;
+		transition: opacity 0.5s;
+		@for $i from 1 to 11 {
+			&:nth-of-type($i) {
+				transition-delay: calc(0.1 + $i * 0.05s);
+			}
+		}
+	}
+	.section {
+		opacity: 1;
+		animation: animLoadedContents 1s cubic-bezier(0.7,0,0.3,1) forwards;
+	}
+
+	.content {
+		&--home {
+			.title {
+				h1 {
+					animation: animLoadedTitle 1s cubic-bezier(0.7,0,0.3,1) forwards;
+				}
+			}
+			.section--menu {
+				animation: animLoadedBG 0.5s cubic-bezier(0.7,0,0.3,1) both;
+				li {
+					animation: animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both;
+					&:first-child {
+						animation-delay: 0.4s;
+					}
+					&:nth-child(2) {
+						animation-delay: 0.6s;
+					}
+					&:nth-child(3) {
+						animation-delay: 0.8s;
+					}
+					&:nth-child(4) {
+						animation-delay: 1s;	
+					}
+				}
+			}
+		}
+		&--about {
+			.content-inner {
+				.box-inner {
+					animation: animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both;
+					&:first-child {
+						animation-delay: 0.1s;
+					}
+					&:nth-child(2) {
+						animation-delay: 0.2s;		
+					}
+					&:nth-child(3) {
+						animation-delay: 0.4s;		
+					}
+				}
+			}
+			h2 {
+				animation: animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both;
+				animation-delay: 0.1s;
+			}
+		}
+		&--work {
+			.items__panel {
+				animation: animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both;
+				@for $i from 1 to 10 {
+					&:nth-of-type($i) {
+						animation-delay: calc($i * 60)ms;
+					}
+				}
+			}
+		}
+		&--work-single {
+			h3, .text-area {
+				animation: animLoadedContent 1s cubic-bezier(0.7,0,0.3,1) both;
+				animation-delay: 0.1s;
+			}
+			.items-right {
+				animation: animLoadedContent 1.2s cubic-bezier(0.7,0,0.3,1) both;
+				animation-delay: 0.5s;
+			}
+		}
+	}
+}
+
+.loaded.reload {
+	.content--home {
+		.title {
+			h1 {
+				animation: animReloadTitle 1s cubic-bezier(0.7,0,0.3,1) forwards;
+			}
+		}
+		.section--menu {
+			animation: animReloadBG 0.5s cubic-bezier(0.7,0,0.3,1) both;
+			li {
+				animation: animReloadContent 1s cubic-bezier(0.7,0,0.3,1) both;
+			}
+			li:first-child {
+				animation-delay: 0.4s;
+			}
+			li:nth-child(2) {
+				animation-delay: 0.6s;
+			}
+			li:nth-child(3) {
+				animation-delay: 0.8s;
+			}
+			li:nth-child(4) {
+				animation-delay: 1s;
+			}
+		}
+	}
+}
+
+/* Change layout class for header */
+.layout-switch .ip-header {
+	position: absolute;
+}
+
+/* No JS */
+.no-js .header {
+	position: relative;
+	min-height: 0px;
+}
+
+.no-js .header .ip-logo svg path {
+	fill: #fff;
+}
+
+/* LOADED LOGO ANIMATION */
+@-ms-keyframes animLoadedLogo {
+	to { -ms-transform: translate3d(0,100%,0) translate3d(0,50px,0) scale3d(0.65,0.65,1); }
+}
+@-o-keyframes animLoadedLogo {
+	to { -o-transform: translate3d(0,100%,0) translate3d(0,50px,0) scale3d(0.65,0.65,1); }
+}
+@-webkit-keyframes animLoadedLogo {
+	to { -webkit-transform: translate3d(0,100%,0) translate3d(0,50px,0) scale3d(0.65,0.65,1); }
+}
+@keyframes animLoadedLogo {
+	to { transform: translate3d(0,100%,0) translate3d(0,50px,0) scale3d(0.65,0.65,1); }
+}
+/* LOADED LOADER ANIMATION */
+@-ms-keyframes animLoadedLoader {
+	to { opacity: 0; -ms-transform: translate3d(0,-100%,0) scale3d(0.3,0.3,1); }
+}
+@-o-keyframes animLoadedLoader {
+	to { opacity: 0; -o-transform: translate3d(0,-100%,0) scale3d(0.3,0.3,1); }
+}
+@-webkit-keyframes animLoadedLoader {
+	to { opacity: 0; -webkit-transform: translate3d(0,-100%,0) scale3d(0.3,0.3,1); }
+}
+@keyframes animLoadedLoader {
+	to { opacity: 0; transform: translate3d(0,-100%,0) scale3d(0.3,0.3,1); }
+}
+
+/* LOADED HEADER ANIMATION */
+@-ms-keyframes animLoadedHeader {
+	to { opacity: 0; -ms-transform: translate3d(0,-100%,0); }
+}
+@-o-keyframes animLoadedHeader {
+	to { opacity: 0; -o-transform: translate3d(0,-100%,0); }
+}
+@-webkit-keyframes animLoadedHeader {
+	to { opacity: 0; -webkit-transform: translate3d(0,-100%,0); }
+}
+@keyframes animLoadedHeader {
+	to { opacity: 0; transform: translate3d(0,-100%,0); }
+}
+/* RIGHT */
+@-ms-keyframes animLoadedHeaderMinus {
+	to { opacity: 0; -ms-transform: translate3d(0,100%,0); }
+}
+@-o-keyframes animLoadedHeaderMinus {
+	to { opacity: 0; -o-transform: translate3d(0,100%,0); }
+}
+@-webkit-keyframes animLoadedHeaderMinus {
+	to { opacity: 0; -webkit-transform: translate3d(0,100%,0); }
+}
+@keyframes animLoadedHeaderMinus {
+	to { opacity: 0; transform: translate3d(0,100%,0); }
+}
+
+/* CONTENTS */
+@-ms-keyframes animLoadedContents {
+	to { -ms-transform: scale(1); }
+}
+@-o-keyframes animLoadedContents {
+	to { -o-transform: scale(1); }
+}
+@-webkit-keyframes animLoadedContents {
+	to { -webkit-transform: scale(1); }
+}
+@keyframes animLoadedContents {
+	to { transform: scale(1); }
+}
+
+/* TITLE FADE IN */
+@keyframes animLoadedTitle {
+	from { opacity: 0; }
+}
+@-o-keyframes animLoadedTitle {
+	from { opacity: 0; }
+}
+@-webkit-keyframes animLoadedTitle {
+	from { opacity: 0; }
+}
+@keyframes animLoadedTitle {
+	from { opacity: 0; }
+}
+
+/* LOADED CONTENT ANIMATION */
+@-ms-keyframes animLoadedContent {
+	from { opacity: 0; -ms-transform: translate3d(0,200px,0); }
+}
+@-o-keyframes animLoadedContent {
+	from { opacity: 0; -o-transform: translate3d(0,200px,0); }
+}
+@-webkit-keyframes animLoadedContent {
+	from { opacity: 0; -webkit-transform: translate3d(0,200px,0); }
+}
+@keyframes animLoadedContent {
+	from { opacity: 0; transform: translate3d(0,200px,0); }
+}
+
+/* LOADED CONTENT BG */
+@-ms-keyframes animLoadedBG {
+	from { opacity: 0; -ms-transform: translate3d(0,0,200px); }
+}
+@-o-keyframes animLoadedBG {
+	from { opacity: 0; -o-transform: translate3d(0,0,200px); }
+}
+@-webkit-keyframes animLoadedBG {
+	from { opacity: 0; -webkit-transform: translate3d(0,0,200px); }
+}
+@keyframes animLoadedBG {
+	from { opacity: 0; transform: translate3d(0,0,200px); }
+}
+
+
+
+/* RELOAD ANIMATION ON TITLE */
+@-webkit-keyframes animReloadTitle {
+	to { -webkit-transform: translate3d(0,-100%,0); }
+}
+@keyframes animReloadTitle {
+	to { -webkit-transform: translate3d(0,-100%,0); transform: translate3d(0,-100%,0); }
+}
+/* RELOAD CONTENT ANIMATION */
+@-webkit-keyframes animReloadContent {
+	to { -webkit-transform: translate3d(0,-100%,0); }
+}
+@keyframes animReloadContent {
+	to { -webkit-transform: translate3d(0,-100%,0); transform: translate3d(0,-100%,0); }
+}
+
+
+.visible {
+	transform: translateY(0);
+	animation: none;
+}
+.comein {
+	transform: translateY(150px);
+	animation: comein 0.8s cubic-bezier(0.7,0,0.3,1) forwards;
+}
+@-ms-keyframes comein {
+	to { transform: translateY(0);}
+}
+@-o-keyframes comein {
+	to { transform: translateY(0);}
+}
+@-webkit-keyframes comein {
+	to { transform: translateY(0);}
+}
+@keyframes comein {
+	to { transform: translateY(0);}
+}

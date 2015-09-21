@@ -1,0 +1,253 @@
+.header {
+	.dummy_bg {
+		position: fixed;
+		width: 50%;
+		height: 100%;
+		background: rgba(255,255,255,0.7);
+		z-index: 99;
+	}
+	.bg--left {
+		left: 0;
+	}
+	.bg--right {
+		right: 0;
+	}
+	.ip-inner {
+		display: block;
+		margin: 0 auto;
+	}
+	.ip-loader {
+		position: absolute;
+		bottom: 50%;
+		left: 0;
+		width: 100%;
+		opacity: 0;
+		cursor: default;
+		pointer-events: none;
+		z-index: 999;
+		svg {
+			path {
+				fill: none;
+				stroke-width: 6;
+			}
+			path.ip-loader-circlebg {
+				stroke: #ddd;
+			}
+			path.ip-loader-circle {
+				-webkit-transition: stroke-dashoffset 0.2s;
+				transition: stroke-dashoffset 0.2s;
+				stroke: $red;
+			}
+		}
+	}
+	.ip-logo {
+		svg {
+			min-width: 320px;
+			max-width: 480px;
+			width: 25%;
+			path {
+				fill: $red;
+			}
+		}
+	}
+}
+
+.bt-menu {
+	position: fixed;
+	left: 0;
+	width: 0;
+	height: 100%;
+	border-width: 0px;
+	border-style: solid;
+	border-color: rgba(51, 51, 51, 0.59);
+	z-index: 999;
+	h4 {
+		position: relative;
+		left: 8px;
+		margin: 4% auto;
+		margin-bottom: 32px;
+		padding-bottom: 8px;
+		font-size: 2.3em;
+		color: #000;
+		text-align: left;
+		z-index: 9;
+		&:before {
+			@mixin pseudo 32px, 2px;
+			bottom: 0;
+			left: 0;
+			background-color: $red;
+		}
+	}
+	ul {
+		margin: 0;
+		padding: 0;
+	}
+	p.menu-top {
+		margin: 5px 10px;
+		padding: 5px 20px 10px 5px;
+		border-bottom: 3px inset #5cb;
+		font-size: 36px;
+		color: #fff;
+		visibility: visible;
+		font-family: 'Open Sans Condensed', sans-serif;
+		font-weight: bold;
+		text-align: center;
+	}
+	.bt-menu-inner {
+		position: absolute;
+		list-style: none;
+		backface-visibility: hidden;
+		opacity: 0;
+		visibility: hidden;
+		z-index: 2;
+		transition: opacity 0.8s;
+		li {
+			display: block;
+			opacity: 0;
+			text-align: center;
+			visibility: hidden;
+		}
+	}
+	.bt-menu-overlay {
+		opacity: 0;
+		transition: all 0.3s cubic-bezier(.64,.08,.61,1);
+	}
+	canvas {
+		opacity: 0;
+		visibility: hidden;
+	}
+}
+
+/* LOADED CONTENT ANIMATION */
+@-ms-keyframes comeUp {
+	from { opacity: 0; -ms-transform: translate3d(0,200px,0); }
+}
+@-o-keyframes comeUp {
+	from { opacity: 0; -o-transform: translate3d(0,200px,0); }
+}
+@-webkit-keyframes comeUp {
+	from { opacity: 0; -webkit-transform: translate3d(0,200px,0); }
+}
+@keyframes comeUp {
+	from { opacity: 0; transform: translate3d(0,200px,0); }
+}
+
+.bt-menu.bt-menu-open {
+	width: 100%;
+	height: 100%;
+	top: 0;
+	.bt-overlay {
+		position: fixed;
+		top: 0;
+		right: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0.8;
+		background-color: #F3F3F3;
+	}
+	.bt-menu-inner {
+		opacity: 1;
+		visibility: visible;
+		z-index: 1;
+		li {
+			visibility: visible;
+			opacity: 1;
+		}
+	}
+	.menu__global {
+		opacity: 1;
+		visibility: visible;
+		li {
+			transform: translate3d(0,0,0);
+			&:first-child { 
+				transition: transform 1.4s, opacity 0.5s, visibility 0s 0.3s;
+			}
+			&:nth-child(2) { 
+				transition: transform 1.2s, opacity 0.7s, visibility 0s 0.3s;
+			}
+			&:nth-child(3) {
+				transition: transform 1.0s, opacity 0.9s, visibility 0s 0.3s;
+			}
+			&:nth-child(4) {  
+				transition: transform 1.2s, opacity 1.1s, visibility 0s 0.3s;
+			}
+			&:nth-child(5) {  
+				transition: transform 1.4s, opacity 1.3s, visibility 0s 0.3s;
+			}
+		}
+	}
+	canvas {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+
+/*.menu__global {
+	transform: translateX(-50%);
+	top: 50%;
+	right: 0;
+	li {
+		display: inline-block;
+		margin: 0 3%;
+		@for $i from 1 through 5 {
+			&:nth-of-type($i) {
+				transform: translate3d(calc(300% - $i * 100%,100%,0));
+			}
+		}
+		a {
+			position: relative;
+			display: inline;
+			margin: 0;
+			padding: 1% 10%;
+			font-size: 1.25em;
+			color: $sub-colour;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+			transition: all 0.2s ease-in-out;
+			&:before, &:after, span:before, span:after {
+				content: "";
+				display: inline-block;
+				position: absolute;
+				background: $sub-colour;
+				transition: all 0.3s cubic-bezier(1,-.005,.693,.99),width .2s cubic-bezier(1,-.005,.693,.99);
+			}
+			&:before, span:before {
+				top: 0;
+				right: 0;
+				width: 0;
+				background: $sub-colour;
+			}
+			&:after, span:after {
+				left: 0;
+				bottom: 0;
+				width: 15px;
+				background: #BE5858;
+			}
+			&:before, &:after {
+				height: 1px;	
+			}
+			&:hover {
+				&:before, &:after {
+					width: 100%;
+					background: $sub-colour;		
+				}
+				span {
+					&:before, &:after {
+						height: 100%;
+						background: $sub-colour;
+					}
+				}
+			}
+			span {
+				width: 0;
+				height: 0;
+				letter-spacing: -1px;
+				&:before, &:after {
+					width: 1px;
+					height: 0;		
+				}	
+			}
+		}
+	}
+}*/

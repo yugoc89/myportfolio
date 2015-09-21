@@ -1,0 +1,94 @@
+.back {
+	.button {
+		display: block;
+		width: 100px;
+		height: 80px;
+		padding: 25px 0;
+		border: 2px solid;
+		text-align: center;
+	}
+}
+
+.bt-menu-trigger {
+	position: fixed;
+	display: block;
+	width: 48px;
+	height: 34px;
+	bottom: 20%;
+	left: 0;
+	margin: auto;
+	color: transparent;
+	cursor: pointer;
+	z-index: 9999;
+	background-color: #fff;
+	text-align: center;
+	span {
+		position: absolute;
+		display: block;
+		top: 16px;
+		right: 0;
+		left: 0;
+		width: 28px;
+		height: 2px;
+		margin: auto;
+		background-color: #000;
+		font-size: 0px;
+		user-select: none;	
+		transition: all 0.5s;
+		&:before, &:after {
+			@mixin pseudo 100%,100%;
+			transition: all 0.5s;
+			left: 0;
+			background: #000;	
+		}
+		&:before {
+			transform: translateY(-440%);
+		}
+		&:after {
+			transform: translateY(440%);
+		}
+	}
+	&:hover {
+		span {
+			&:before {
+				transform: translateY(-580%);
+			}
+			&:after {
+				transform: translateY(580%);
+			}
+		}
+		svg {
+			path {
+				fill: $red;
+			}
+		}
+	}
+	svg {
+		margin: 4px 0;
+		path {
+			fill: #000;
+		}
+	}
+}
+
+.bt-menu-open {
+	.bt-menu-trigger {
+		span {
+			transition: all 0.1s;
+			background-color: transparent;
+			&:before {
+				transform: translateY(0) rotate(45deg);
+			}
+			&:after {
+				transform: translateY(0) rotate(-45deg);
+			}
+		}
+		&:hover {
+			span {
+				&:before, &:after {
+					background-color: #ccc;
+				}
+			}
+		}
+	}
+}

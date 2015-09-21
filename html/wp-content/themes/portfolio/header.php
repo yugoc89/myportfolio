@@ -13,8 +13,9 @@
 		<meta name="author" content="Yugo Ito" />
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/style.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	
-		<script async src="<?php echo get_template_directory_uri(); ?>/assets/js/vendor/modernizr.custom.js"></script>
+		<script src="<?php echo get_template_directory_uri(); ?>/assets/js/vendor/modernizr.custom.js"></script>
 	</head>
 	<body <?php body_class(); ?>>
 		<!--[if lt IE 7]>
@@ -37,14 +38,86 @@
 					</svg>
 				</div>
 			</header>
-			<nav id="bt-menu" class="bt-menu">
-				<a href="#" class="bt-menu-trigger link_exc"><span></span></a>
-				<ul>
-					<li><a href="/">HOME</a></li>
-					<li><a href="/about/">ABOUT</a></li>
-					<li><a href="/works/">WORKS</a></li>
-					<li><a href="/blog/">BLOG</a></li>
-					<li><a href="/contact/">CONTACT</a></li>
+			<nav class="navigation menu__global" id="menu__global" role="navigation">
+				<ul class="clear" id="nav-menu">
+					<li>
+						<a class="home-icon" title="home" href="/">
+							<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+							 width="26px" height="26px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+							<path id="grid-small-view-icon" fill="#fff" d="M304.564,305.068h-98.136v-98.136h98.136V305.068z M206.429,50v98.075h98.136V50H206.429z
+								 M50,305.068h97.571v-98.136H50V305.068z M363.422,148.075H462V50h-98.578V148.075z M304.564,462v-98.074h-98.136V462H304.564z
+								 M147.571,363.926H50V462h97.571V363.926z M462,206.933h-98.578v98.136H462V206.933z M363.422,363.926V462H462v-98.074H363.422z
+								 M147.571,148.075V50H50v98.075H147.571z"/>
+							</svg>
+						</a>
+					</li>
+					<li><a title="about" href="/about/">ABOUT</a></li>
+					<li><a class="bt-menu-trigger-2 link_exc" title="works" href="#">WORKS</a></li>
+					<li><a title="contact" href="/contact/">CONTACT</a></li>
 				</ul>
+			</nav>
+			<nav id="bt-menu" class="bt-menu">
+<!-- 				<a href="#" class="bt-menu-trigger link_exc">
+					<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+					 width="26px" height="26px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+					<path id="grid-small-view-icon" fill="#fff" d="M304.564,305.068h-98.136v-98.136h98.136V305.068z M206.429,50v98.075h98.136V50H206.429z
+						 M50,305.068h97.571v-98.136H50V305.068z M363.422,148.075H462V50h-98.578V148.075z M304.564,462v-98.074h-98.136V462H304.564z
+						 M147.571,363.926H50V462h97.571V363.926z M462,206.933h-98.578v98.136H462V206.933z M363.422,363.926V462H462v-98.074H363.422z
+						 M147.571,148.075V50H50v98.075H147.571z"/>
+					</svg>
+				</a> -->
+				<div class="menu__works bt-menu-inner">
+					<?php
+						$counter = 1;
+						$args = array( 
+							'orderby' => 'slug', 
+							'order' => 'DESC', 
+							'hide_empty' => 'false', 
+							//'parent' => 0, 
+							'get' => 'all'
+						);
+						$terms  = get_terms( 'work_type' , $args );
+						foreach( $terms as $term ):
+					?>
+					<div class="works__list clear">
+						<!-- <h4><?php echo $term->name; ?></h4> -->
+						<ul class="clear">
+						<?php
+							$works = get_posts(
+								array(
+									'post_type' => 'works', 
+									'posts_per_page' => -1,
+									'tax_query' => array(
+										array(
+										'taxonomy' => 'work_type',
+										'field' => 'slug',
+										'terms' => explode(' ', $term->slug)
+										)
+									),
+								)
+							);
+
+							global $post;
+							foreach ($works as $post):
+							setup_postdata($post); 
+							$id = get_the_ID();
+							$slug = $post->slug;
+							$thumbnail_id = get_post_thumbnail_id($post->ID); 
+							// 指定サイズの画像内容を取得（引数にmediumをセット）
+							$thumbnail = wp_get_attachment_image_src( $thumbnail_id , array(120,60) );
+							$post->thumbnail = (!empty($thumbnail)) ? $thumbnail[0] : "";
+						?>
+
+							<li>
+								<a href="/<?php echo the_slug(); ?>/"><img src="<?php echo $post->thumbnail;?>"></a>
+							</li>
+
+						<?php endforeach; ?>
+						</ul>
+					</div>
+				<?php endforeach; ?>
+				</div>
+				
+				<?php wp_reset_postdata(); ?>
 			</nav><!--bt-menu-->
 			<article id="wrapper">

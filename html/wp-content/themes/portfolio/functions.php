@@ -15,6 +15,18 @@ function curPageURL() {
 	return $pageURL;
 }
 
+function get_relative_permalink( $url ) {
+	return str_replace( home_url(), "", $url );
+}
+
+function the_slug($echo=true){
+	$slug = basename(get_permalink());
+	do_action('before_slug', $slug);
+	$slug = apply_filters('slug_filter', $slug);
+	if( $echo ) echo $slug;
+	do_action('after_slug', $slug);
+	//return $slug;
+}
 /*
 * Add thumbnails in a post
 */
@@ -30,67 +42,8 @@ add_theme_support( 'post-thumbnails' );
 * Creating a function to create our CPT
 */
 
-function custom_post_type() {
-
-// Set UI labels for Custom Post Type
-	$labels = array(
-		'name'                => _x( 'Blog', 'Post Type General Name', 'portfolio' ),
-		'singular_name'       => _x( 'Blog', 'Post Type Singular Name', 'portfolio' ),
-		'menu_name'           => __( 'Blog', 'portfolio' ),
-		'parent_item_colon'   => __( 'Parent Blog', 'portfolio' ),
-		'all_items'           => __( 'All Blog', 'portfolio' ),
-		'view_item'           => __( 'View Blog', 'portfolio' ),
-		'add_new_item'        => __( 'Add New Blog', 'portfolio' ),
-		'add_new'             => __( 'Add New', 'portfolio' ),
-		'edit_item'           => __( 'Edit Blog', 'portfolio' ),
-		'update_item'         => __( 'Update Blog', 'portfolio' ),
-		'search_items'        => __( 'Search Blog', 'portfolio' ),
-		'not_found'           => __( 'Not Found', 'portfolio' ),
-		'not_found_in_trash'  => __( 'Not found in Trash', 'portfolio' ),
-	);
-	
-// Set other options for Custom Post Type
-	
-	$args = array(
-		'label'               => __( 'blog', 'portfolio' ),
-		'description'         => __( 'blog and hobbies', 'portfolio' ),
-		'labels'              => $labels,
-		// Features this CPT supports in Post Editor
-		'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
-		// You can associate this CPT with a taxonomy or custom taxonomy. 
-		'taxonomies'          => array( 'genres' ),
-		/* A hierarchical CPT is like Pages and can have
-		* Parent and child items. A non-hierarchical CPT
-		* is like Posts.
-		*/	
-		'hierarchical'        => false,
-		'public'              => true,
-		'show_ui'             => true,
-		'show_in_menu'        => true,
-		'show_in_nav_menus'   => true,
-		'show_in_admin_bar'   => true,
-		'menu_position'       => 5,
-		'can_export'          => true,
-		'has_archive'         => true,
-		'exclude_from_search' => false,
-		'publicly_queryable'  => true,
-		'capability_type'     => 'page',
-	);
-	
-	// Registering your Custom Post Type
-	register_post_type( 'blog', $args );
-
-}
-add_action( 'init', 'custom_post_type', 0 );
-/* Hook into the 'init' action so that the function
-* Containing our post type registration is not 
-* unnecessarily executed. 
-*/
-
-
-
 /**
- * add custom post[blog]
+ * add custom post[works]
  *
  *
  */
@@ -143,26 +96,26 @@ add_filter('excerpt_length', 'new_excerpt_length');
  */
 function add_custom_taxonomies() {
   // Add new "Locations" taxonomy to Posts
-  register_taxonomy('blog_category', 'blog', array(
+  register_taxonomy('work_type', 'works', array(
     // Hierarchical taxonomy (like categories)
     'hierarchical' => true,
     // This array of options controls the labels displayed in the WordPress Admin UI
     'labels' => array(
-      'name' => _x( 'Blog Category', 'taxonomy general name' ),
-      'singular_name' => _x( 'Blog Category', 'taxonomy singular name' ),
-      'search_items' =>  __( 'search for Blog Category' ),
-      'all_items' => __( 'all Blog Category' ),
-      'parent_item' => __( 'Parent Blog Category' ),
-      'parent_item_colon' => __( 'Parent Blog Category:' ),
-      'edit_item' => __( 'edit Blog Category' ),
-      'update_item' => __( 'update Blog Category' ),
-      'add_new_item' => __( 'add new Blog Category' ),
-      'new_item_name' => __( 'new Blog Category name' ),
-      'menu_name' => __( 'Blog Category' ),
+      'name' => _x( 'Work Category', 'taxonomy general name' ),
+      'singular_name' => _x( 'Work Category', 'taxonomy singular name' ),
+      'search_items' =>  __( 'search for Work Category' ),
+      'all_items' => __( 'all Work Category' ),
+      'parent_item' => __( 'Parent Work Category' ),
+      'parent_item_colon' => __( 'Parent Work Category:' ),
+      'edit_item' => __( 'edit Work Category' ),
+      'update_item' => __( 'update Work Category' ),
+      'add_new_item' => __( 'add new Work Category' ),
+      'new_item_name' => __( 'new Work Category name' ),
+      'menu_name' => __( 'Work Category' ),
     ),
     // Control the slugs used for this taxonomy
     'rewrite' => array(
-      'slug' => 'topic', // This controls the base slug that will display before each term
+      'slug' => 'work_type', // This controls the base slug that will display before each term
       'with_front' => false, // Don't display the category base before "/locations/"
       'hierarchical' => true // This will allow URL's like "/locations/boston/cambridge/"
     ),

@@ -2,23 +2,14 @@
 get_header()
 ?>
 
-<div id="content" class="content content--home no_bg cols2">
-	<section class="section left title">
+<div id="content" class="content content--home no_bg">
+	<section class="section left section--title">
 		<h1>
 			<a href="/" id="page-title" class="page-title">My Portfolio</a>
-			<span class="sub-title">Welcome to my portfolio. Enjoy this beatific world - designed by Yugo Ito</span>
+			<span class="sub-title">oi love, want some chips? - designed by Yugo Ito</span>
+			<!-- <span class="sub-title">Big Beats Manifesto: Big beats are the best! Get high all the time - designed by Yugo Ito</span> -->
+			<!-- <span class="sub-title">How do you get that shirt so clean mate? - designed by Yugo Ito</span> -->
 		</h1>
-	</section>
-	<!-- main content -->
-	<section class="section section--menu">
-		<nav class="navigation">
-			<ul class="clear">
-				<li><a href="/about/"><span>ABOUT</span></a></li>
-				<li><a href="/works/"><span>WORKS</span></a></li>
-				<li><a href="/blog/"><span>BLOG</span></a></li>
-				<li><a href="/contact/"><span>CONTACT</span></a></li>
-			</ul>
-		</nav>
 	</section>
 </div>
 <?php
