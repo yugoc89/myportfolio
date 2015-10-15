@@ -1,13 +1,13 @@
 			</article>
 		</main><!-- /container -->
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="<?php echo get_template_directory_uri(); ?>/assets/js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+		<script>window.jQuery || document.write('<script src="<?php echo get_template_directory_uri(); ?>/assets/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
 		
 <!-- 		<script src="http://soulwire.github.io/sketch.js/js/sketch.min.js"></script>
 		<script src="http://dat-gui.googlecode.com/git/build/dat.gui.min.js"></script> -->
+		<script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.colorbox-min.js"></script>
 		<script src="<?php echo get_template_directory_uri(); ?>/assets/js/scripts.min.js"></script>
 		<script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.hashchange.min.js"></script>
-		<script src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery.colorbox-min.js"></script>
 
 		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 		<script>
@@ -20,5 +20,6 @@
 		ga('send', 'pageview');
 
 		</script>
+		<?php wp_footer(); ?>
 	</body>
 </html>

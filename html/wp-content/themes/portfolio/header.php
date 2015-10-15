@@ -8,14 +8,15 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
 		<meta name="viewport" content="width=device-width, initial-scale=1"> 
 		<title><?php wp_title(' | ', true, 'right'); ?><?php bloginfo('name'); ?></title>
-		<meta name="description" content="This is the portfolio made by Yugo Ito" />
-		<meta name="keywords" content="portfolio, Yugo Ito, web design, front-end, mark up, design, minimal" />
+		<!-- <meta name="description" content="This is the portfolio made by Yugo Ito" /> -->
+		<!-- <meta name="keywords" content="portfolio, Yugo Ito, web design, front-end, mark up, design, minimal" /> -->
 		<meta name="author" content="Yugo Ito" />
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/style.css">
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 	
 		<script src="<?php echo get_template_directory_uri(); ?>/assets/js/vendor/modernizr.custom.js"></script>
+		<?php wp_head(); ?> 
 	</head>
 	<body <?php body_class(); ?>>
 		<!--[if lt IE 7]>
@@ -80,7 +81,7 @@
 						foreach( $terms as $term ):
 					?>
 					<div class="works__list clear">
-						<!-- <h4><?php echo $term->name; ?></h4> -->
+						<h4><?php echo $term->name; ?></h4>
 						<ul class="clear">
 						<?php
 							$works = get_posts(

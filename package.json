@@ -1,11 +1,11 @@
 {
-    "name": "MyPortfolio",
-    "title": "My Portfolio",
-    "url": "http://yugoc89.worlders.co.uk",
-    "author": "Yugo Ito",
-    "copyright": "2015",
-    "version": "1.0.0",
-    "license": "MIT",
+  "name": "MyPortfolio",
+  "title": "My Portfolio",
+  "url": "http://yugoc89.worlders.co.uk",
+  "author": "Yugo Ito",
+  "copyright": "2015",
+  "version": "1.0.0",
+  "license": "MIT",
   "private": true,
   "engines": {
     "node": ">=0.12.0"
@@ -62,5 +62,8 @@
         "single"
       ]
     }
+  },
+  "dependencies": {
+    "gulp-header": "^1.7.1"
   }
 }

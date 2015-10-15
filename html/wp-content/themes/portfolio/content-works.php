@@ -25,15 +25,27 @@
 			<?php $thumb = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'full' );?>
 
 			<?php if ($genre_slug == 'web'): ?>
-			<li class="items__panel panel-1 items__panel-web">
+			<li class="items__panel panel-1 items__panel--web">
+				<div class="cube-container">
+					<div class="Zcube">
+						<div class="Ycube">
+							<div class="cube">
+								<a class="panel-link panel-link--web" href="<?php echo $thumb['0'];?>">
+									<img src="<?php echo $thumb['0'];?>" alt="wEB IMAGE">
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
 			<?php else: ?>
 			<li class="items__panel panel-1">
-			<?php endif; ?>
 				<a class="panel-link" href="<?php echo $thumb['0'];?>" style="background-image: url('<?php echo $thumb['0'];?>')"></a>
 			</li>
+			<?php endif; ?>
 
 			<?php if ($genre_slug == 'web'): ?>
-			<li class="items__panel panel-2 items__panel-web-2">
+			<li class="items__panel panel-2 items__panel--web-2">
 			<?php else: ?>
 			<li class="items__panel panel-2">
 			<?php endif; ?>

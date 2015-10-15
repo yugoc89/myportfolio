@@ -363,25 +363,3 @@ html.fp-enabled,
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF);
 }
 
-
-.img-pan-container, 
-.img-pan-container img { 
-    box-sizing: border-box;
-}
-
-.img-pan-container{
-    position: relative;
-    overflow: hidden;
-    cursor: -webkit-zoom-out;
-    cursor: zoom-out;
-    height: 100%;
-    width: 100%;
-}
-
-.img-pan-container img {
-    transform: transformZ(0);
-    transition: opacity .6s linear .8s;
-    position: absolute;
-    top: 0;
-    left: 0;
-}

@@ -177,6 +177,11 @@
 		}
 	}
 }
+@media only screen and (max-width: 1900px) {
+	.content--blog {
+		overflow: auto;
+	}
+}
 @media only screen and (max-width: 1440px) {
 	.panel-items {
 		.panel {
@@ -198,9 +203,14 @@
 		}
 	}
 }
-@media only screen and (max-width: 1900px) {
-	.content--blog {
-		overflow: auto;
+@media only screen and (max-width: 1350px) {
+	.menu__works {
+		.works__list {
+			width: 288px;
+		}
+		li {
+			width: 288px;
+		}
 	}
 }
 @media only screen and (max-height: 700px) {

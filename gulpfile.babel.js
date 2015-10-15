@@ -7,6 +7,8 @@ import {stream as wiredep} from 'wiredep';
 
 const $ = gulpLoadPlugins(),
 	reload = browserSync.reload,
+	pkg = require('./package.json'),
+	header = require('gulp-header'),
 	autoprefixer = require('autoprefixer'),
 	center = require('postcss-center'),
 	clearfix = require('postcss-clearfix'),
@@ -22,7 +24,15 @@ const $ = gulpLoadPlugins(),
 	size = require('postcss-size'),
 	assets = require('postcss-assets'),
 	rucksack = require('rucksack-css'),
-	baseAssets = 'html//wp-content/themes/portfolio';
+	baseAssets = 'html//wp-content/themes/portfolio',
+	banner = ['/**',
+		' * <%= pkg.name %> - <%= pkg.title %>',
+		' * @version v<%= pkg.version %>',
+		' * @link <%= pkg.url %>',
+		' * @author <%= pkg.author %>',
+		' * @license <%= pkg.license %>',
+		' */',
+	''].join('\n');
 
 gulp.task('styles', () => {
 	return gulp.src('src/scss/*.scss')
@@ -40,7 +50,7 @@ gulp.task('styles', () => {
 });
 
 gulp.task('postcss', () => {
-	var processors = [
+	const processors = [
 		//colorshort,
 		//focus,
 		precss,
@@ -59,6 +69,7 @@ gulp.task('postcss', () => {
 	.pipe($.plumber())
 	.pipe($.sourcemaps.init())
 	.pipe(postcss(processors))
+	.pipe(header(banner, { pkg : pkg } ))
 	.pipe($.sourcemaps.write('.'))
 	.pipe(gulp.dest(baseAssets))
 	.pipe(reload({stream: true}));
@@ -178,6 +189,7 @@ gulp.watch([
 ]).on('change', reload);
 
 //gulp.watch('src/scss/**/*.scss', ['styles']);
+gulp.watch('src/js/**/*.js', ['js']);
 gulp.watch('src/css/**/*.css', ['postcss']);
 gulp.watch('src/fonts/**/*', ['fonts']);
 gulp.watch('bower.json', ['wiredep', 'fonts']);
